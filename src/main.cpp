@@ -1,11 +1,13 @@
 #include<iostream>
 #include<GLAD/glad.h>
 #include<GLFW/glfw3.h>
+#include<renderer.hpp>
+#include<shader.hpp>
 
 GLFWwindow* startGLFW();
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
-void createShaderProgram();
+unsigned int createShaderProgram();
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -14,19 +16,11 @@ const unsigned int SCR_HEIGHT = 600;
 int main()
 {
     GLFWwindow *window = startGLFW();
-
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    initRenderer();
+    unsigned int shaderProgram = createShaderProgram();
 
-    createShaderProgram();
-
-    // set the verticies for the triangle
-    float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
-    };
-
-    // while the window should be open
+    // render loop
     while(!glfwWindowShouldClose(window ))
     {
         // checks for input each frame
@@ -36,19 +30,9 @@ int main()
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // draw triangle --------------------------------------------
-
-
-
-        // create the vertex buffer object (VBO)
-        unsigned int VBO;
-        glGenBuffers(1, &VBO);
-
-        // bind the buffer to be current buffer
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-        // set the buffer data to be the verticies
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        // draw square
+        glUseProgram(shaderProgram);
+        drawSquare();
 
         // swaps colour buffers
         glfwSwapBuffers(window);
@@ -56,6 +40,9 @@ int main()
         // checks if any events are triggered
         glfwPollEvents();
     }
+
+    // cleanup
+    cleanRenderer();
 
     // if the window closes terminate glfw
     glfwTerminate();
@@ -113,53 +100,4 @@ void processInput(GLFWwindow *window)
 void framebuffer_size_callback(GLFWwindow*, int width, int height)
 {
     glViewport(0, 0, width, height);
-}
-
-// Shader creation
-// ------------------------------------------------------------------------------------------------
-
-// create the vertex shader
-const char *vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
-
-// create fragment shader
-const char *fragmentShaderSource = "#version 330 core\n"
-    "out vec4 FragColor;\n"
-    "void main()\n"
-    "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    "}\n\0";
-
-void createShaderProgram() {
-    // create the vertex shader
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    // create fragment shader
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    // create the shader program
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
-
-    // attach the shaders to the shaderProgram
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    // set the current program to the created shader program
-    glUseProgram(shaderProgram);
-
-    // delete the shaders as the shader program is already built
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
 }
