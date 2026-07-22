@@ -5,6 +5,7 @@
 #include<shader.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+// #include<glm/glm.hpp>
 
 GLFWwindow* startGLFW();
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -26,9 +27,16 @@ int main()
     // Texture Rendering
     // -------------------------------------------------------------------------------
     // create both texture vartiables
-    unsigned int texture1, texture2;
+    unsigned int texture1;
     texture1 = loadJPG("resources/textures/car.jpg");
-    texture2 = loadJPG("resources/textures/gigachad.jpg"); 
+
+    // added texture to our shader (ourShader)
+    ourShader.use();
+    ourShader.setInt("texture1", 0);
+
+    // experiementing with glm
+    // get orthographic matrics, width, height z
+    // glm::ortho(0.0f, 800.0f, 0.0f, 800.0f, 0.1f, 100.0f);
 
     // render loop
     while(!glfwWindowShouldClose(window ))
@@ -42,7 +50,7 @@ int main()
 
         // draw square
         ourShader.use();
-        drawSquare();
+        drawSquare(texture1);
 
         // swaps colour buffers
         glfwSwapBuffers(window);
@@ -130,6 +138,7 @@ unsigned int loadJPG(const char *jpeg_path)
     unsigned char *data = stbi_load(jpeg_path, &width, &height, &nrChannels, 0);
     if (data)
     {
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
