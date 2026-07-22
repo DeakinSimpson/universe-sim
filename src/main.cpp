@@ -18,7 +18,8 @@ int main()
     GLFWwindow *window = startGLFW();
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     initRenderer();
-    unsigned int shaderProgram = createShaderProgram();
+    // create shader
+    Shader ourShader("shaders/3.3.shader.vs", "shaders/3.3.shader.fs");
 
     // render loop
     while(!glfwWindowShouldClose(window ))
@@ -31,7 +32,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // draw square
-        glUseProgram(shaderProgram);
+        ourShader.use();
         drawSquare();
 
         // swaps colour buffers
