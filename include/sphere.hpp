@@ -1,6 +1,6 @@
 #pragma once
 
-#include<array>
+#include<vector>
 
 // Coord struct, used as an easy way to get the position without using fixed sized arrays with indexing to get value
 struct Coord {
@@ -23,10 +23,15 @@ public:
     Coord getPos();
     float getRadius();
 
+
+
 private:
+    // variables
     float x;
     float y;
     float z;
-
     float radius;
+
+    // functions
+    std::vector<float> getVerticies();
 };
