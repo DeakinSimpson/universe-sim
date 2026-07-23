@@ -22,15 +22,14 @@ int main()
     GLFWwindow *window = ViewWindow::startGLFW();
     viewWindow = new ViewWindow("shaders/solid.shader.vs", "shaders/solid.shader.fs");
     initRenderer();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // set camera settings
     glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
     viewWindow->ourShader.setMat4("projection", projection); 
 
-    Sphere sphere = Sphere(1, 1, 2, 3);
-    // sphere.setPosition({1, 2, 3});
-    std::cout << sphere.getPos().x << std::endl;
-
+    Sphere sphere1 = Sphere(1, 1, 2, 3);
+    
     // render loop
     while(!glfwWindowShouldClose(window ))
     {
@@ -67,7 +66,8 @@ int main()
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
 
         // draw square
-        drawSolidSquare();
+        // drawSolidSquare();
+        drawSphere(sphere1);
         // --------------------------------------------------------------------------------------------------------------------------------------------
 
         endFrame(window);

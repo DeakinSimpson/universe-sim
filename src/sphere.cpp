@@ -7,7 +7,7 @@
 
 // TODO: change later as these are static and not customisable
 static int lat_line_count = 10;
-static int lon_line_count = 4;
+static int lon_line_count = 10;
 
 // contructors
 // --------------------------------------------------------------------------
@@ -68,22 +68,22 @@ void Sphere::setShader(const char* vertex_shader, const char* fragment_shader)
 
 // getters
 // --------------------------------------------------------------------------
-Coord Sphere::getPos()
+Coord Sphere::getPos() const
 {
     return {this->x, this->y, this->z};
 }
 
-float Sphere::getRadius()
+float Sphere::getRadius() const
 {
     return this->radius;
 }
 
-std::vector<float> Sphere::getVerticies()
+std::vector<float> Sphere::getVerticies() const
 {
     return this->verticies;
 }
 
-std::vector<unsigned int> Sphere::getIndicies()
+std::vector<unsigned int> Sphere::getIndicies() const
 {
     return this->indicies;
 }
@@ -98,7 +98,7 @@ void Sphere::setVerticies()
     std::vector<float> verticies;
 
     // loop through each verticle (latitude) angle
-    for (int lat_increment = 0; lat_increment < lat_line_count; ++lat_increment)
+    for (int lat_increment = 0; lat_increment <= lat_line_count; ++lat_increment)
     {
         float lat_angle  = (-90.0f + (180.0f / lat_line_count) * lat_increment) * (3.14159265358979323f / 180.0f); // get the current angle for lat (divide the total split by current increment)
         float lat_radius = this->radius * cos(lat_angle); // get the circle radius
@@ -130,8 +130,8 @@ void Sphere::setIndicies()
     // create the output vector
     std::vector<unsigned int> indicies;
 
-        // loop through each verticle (latitude) angle (-1 because it indexs the line above)
-    for (int lat_increment = 0; lat_increment < lat_line_count - 1; ++lat_increment)
+        // loop through each verticle (latitude) angle
+    for (int lat_increment = 0; lat_increment < lat_line_count; ++lat_increment)
     {
         for (int lon_increment = 0; lon_increment < lon_line_count; ++lon_increment)
         {

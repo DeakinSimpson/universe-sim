@@ -121,6 +121,30 @@ void drawSolidSquare() {
     glBindVertexArray(0);    
 }
 
-void drawSphere() {
-    
+void drawSphere(const Sphere &sphere)
+{
+    const std::vector<float> &verticies = sphere.getVerticies();
+    const std::vector<unsigned int> &indicies = sphere.getIndicies();
+
+    glBindVertexArray(VAO);
+
+    // set the vertex buffer object
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, verticies.size() * sizeof(float), verticies.data(), GL_STATIC_DRAW);
+
+    // set the edge buffer array (indicies)
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(unsigned int), indicies.data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // clear the buffer array by setting 0
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // draw the elements in the buffers
+    glDrawElements(GL_TRIANGLES, indicies.size(), GL_UNSIGNED_INT, 0);
+
+    // clear the vertex buffer
+    glBindVertexArray(0);   
 }

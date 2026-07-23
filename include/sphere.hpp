@@ -19,14 +19,13 @@ public:
     void setPos(Coord coord);
     void setPos(float x, float y, float z);
     void setRadius(float radius);
+    void setShader(const char* vertex_shader, const char* fragment_shader);
 
     // getters
-    Coord getPos();
-    float getRadius();
-    std::vector<float> getVerticies();
-    std::vector<unsigned int> getIndicies();
-
-    void setShader(const char* vertex_shader, const char* fragment_shader);
+    Coord getPos() const;
+    float getRadius() const;
+    std::vector<float> getVerticies() const;
+    std::vector<unsigned int> getIndicies() const;
 
 private:
     // variables
