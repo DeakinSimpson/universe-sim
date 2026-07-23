@@ -19,6 +19,9 @@ Sphere::Sphere(float radius, Coord coord)
     this->y = coord.y;
     this->z = coord.z;
     this->shader = nullptr;
+
+    setVerticies();
+    setIndicies();
 }
 
 Sphere::Sphere(float radius, float x, float y, float z)
@@ -28,6 +31,9 @@ Sphere::Sphere(float radius, float x, float y, float z)
     this->y = y;
     this->z = z;
     this->shader = nullptr;
+
+    setVerticies();
+    setIndicies();
 }
 
 // setters
@@ -70,6 +76,16 @@ Coord Sphere::getPos()
 float Sphere::getRadius()
 {
     return this->radius;
+}
+
+std::vector<float> Sphere::getVerticies()
+{
+    return this->verticies;
+}
+
+std::vector<unsigned int> Sphere::getIndicies()
+{
+    return this->indicies;
 }
 
 // functions

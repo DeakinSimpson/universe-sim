@@ -23,6 +23,8 @@ public:
     // getters
     Coord getPos();
     float getRadius();
+    std::vector<float> getVerticies();
+    std::vector<unsigned int> getIndicies();
 
     void setShader(const char* vertex_shader, const char* fragment_shader);
 
