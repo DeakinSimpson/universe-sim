@@ -51,6 +51,8 @@ public:
     static void scroll_callback(GLFWwindow*, double, double yoffset);
     static void framebuffer_size_callback(GLFWwindow*, int width, int height);
 
+    void updateDeltaTime();
+
 private:
     // points at "the current" ViewWindow object, so the static callbacks
     // above (which have no `this` of their own) can still reach camera/

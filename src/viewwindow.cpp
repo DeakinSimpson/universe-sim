@@ -166,3 +166,10 @@ unsigned int ViewWindow::loadJPG(const char *jpeg_path)
 
     return output_texture;
 }
+
+void ViewWindow::updateDeltaTime()
+{
+    float currentFrame = static_cast<float>(glfwGetTime());
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+}

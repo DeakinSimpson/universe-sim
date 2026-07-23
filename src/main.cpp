@@ -11,6 +11,8 @@
 #include <sphere.hpp>
 
 GLFWwindow* startGLFW();
+void beginFrame();
+void updateDeltaTime();
 
 ViewWindow* viewWindow = nullptr;
 
@@ -31,17 +33,12 @@ int main()
     // render loop
     while(!glfwWindowShouldClose(window ))
     {
-        // per-frame time logic
-        float currentFrame = static_cast<float>(glfwGetTime());
-        viewWindow->deltaTime = currentFrame - viewWindow->lastFrame;
-        viewWindow->lastFrame = currentFrame;
+        viewWindow->updateDeltaTime();
 
         // checks for input each frame
         viewWindow->processInput(window);
 
-        // set the background colour (RGBA)
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        beginFrame();
         
         // activate shader
         viewWindow->ourShader.use();
@@ -82,4 +79,12 @@ int main()
     // if the window closes terminate glfw
     glfwTerminate();
     return 0;
+}
+
+// render background as black
+void beginFrame()
+{
+    // set the background colour (RGBA)
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
