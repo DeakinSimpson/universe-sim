@@ -88,6 +88,11 @@ std::vector<unsigned int> Sphere::getIndicies() const
     return this->indicies;
 }
 
+Shader* Sphere::getShader() const
+{
+    return this->shader;
+}
+
 // functions
 // --------------------------------------------------------------------------
 
@@ -102,7 +107,7 @@ void Sphere::setVerticies()
     {
         float lat_angle  = (-90.0f + (180.0f / lat_line_count) * lat_increment) * (3.14159265358979323f / 180.0f); // get the current angle for lat (divide the total split by current increment)
         float lat_radius = this->radius * cos(lat_angle); // get the circle radius
-        float lon_height = radius * sin(lat_angle); // get the circle height
+        float lon = radius * sin(lat_angle); // get the circle height
 
         // loop through each horizontal (longitude) edge
         for (int lon_increment = 0; lon_increment < lon_line_count; ++lon_increment)
@@ -112,8 +117,8 @@ void Sphere::setVerticies()
 
             // get the vertex xyz
             float v_x = lat_radius * cos(lon_angle);
-            float v_y = lat_radius * sin(lon_angle);
-            float v_z = lon_height;
+            float v_z = lat_radius * sin(lon_angle);
+            float v_y = lon;
 
             // add verticies to verticie array
             verticies.push_back(v_x);

@@ -28,7 +28,8 @@ int main()
     glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
     viewWindow->ourShader.setMat4("projection", projection); 
 
-    Sphere sphere1 = Sphere(1, 1, 2, 3);
+    Sphere sphere = Sphere(1, 1, 2, 3);
+    sphere.setShader("shaders/solid.shader.vs", "shaders/solid.shader.fs");
     
     // render loop
     while(!glfwWindowShouldClose(window ))
@@ -40,34 +41,7 @@ int main()
         // checks for input each frame
         viewWindow->processInput(window);
         
-        // TO REMOVE AFTER drawSphere is implemented
-        // --------------------------------------------------------------------------------------------------------------------------------------------
-        // activate shader
-        viewWindow->ourShader.use();
-
-        // pass projection matrix to shader (note that in this case it could change every frame)
-        glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
-        viewWindow->ourShader.setMat4("projection", projection);
-
-        // camera/view transformation
-        glm::mat4 view = viewWindow->camera.GetViewMatrix();
-        viewWindow->ourShader.setVec3("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
-
-        // create transformations
-        glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-        model = glm::rotate(model, glm::radians(-15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
-        // retrieve the matrix uniform locations
-        unsigned int modelLoc = glGetUniformLocation(viewWindow->ourShader.ID, "model");
-        unsigned int viewLoc  = glGetUniformLocation(viewWindow->ourShader.ID, "view");
-        
-        // pass them to the shaders (3 different ways)
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
-
-        // draw square
-        // drawSolidSquare();
-        drawSphere(sphere1);
+        drawSphere(sphere);
         // --------------------------------------------------------------------------------------------------------------------------------------------
 
         endFrame(window);

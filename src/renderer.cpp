@@ -1,6 +1,13 @@
 #include "renderer.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <shader.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <viewwindow.hpp>
+
+extern ViewWindow* viewWindow;
 
 static unsigned int VAO; // holds setup info (including VBO & EBO)
 static unsigned int VBO; // holds vertex positions
@@ -123,6 +130,29 @@ void drawSolidSquare() {
 
 void drawSphere(const Sphere &sphere)
 {
+    // shading
+    // -------------------------------------------------------------
+    Shader* shader = sphere.getShader();
+    shader->use();
+
+    // get the projection plane
+    glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
+    shader->setMat4("projection", projection);
+
+    // get the viewport plane
+    glm::mat4 view = viewWindow->camera.GetViewMatrix();
+    shader->setMat4("view", view);
+
+    // translate the model based on the cameras position
+    Coord pos = sphere.getPos();
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(pos.x, pos.y, pos.z));
+    shader->setMat4("model", model);
+
+    // set the shader colour to white
+    shader->setVec3("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
+
+    // rendering
+    //--------------------------------------------------------------
     const std::vector<float> &verticies = sphere.getVerticies();
     const std::vector<unsigned int> &indicies = sphere.getIndicies();
 

@@ -24,6 +24,7 @@ public:
     // getters
     Coord getPos() const;
     float getRadius() const;
+    Shader* getShader() const;
     std::vector<float> getVerticies() const;
     std::vector<unsigned int> getIndicies() const;
 
