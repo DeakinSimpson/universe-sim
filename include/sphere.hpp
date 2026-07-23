@@ -2,6 +2,7 @@
 
 #include<array>
 
+// Coord struct, used as an easy way to get the position without using fixed sized arrays with indexing to get value
 struct Coord {
     float x;
     float y;
@@ -10,7 +11,6 @@ struct Coord {
 
 class Sphere {
 public:
-
     Sphere(Coord coord);
     Sphere(float x, float y, float z);
 
@@ -20,5 +20,7 @@ public:
     Coord getPos();
 
 private:
-    Coord pos;
+    float x;
+    float y;
+    float z;
 };

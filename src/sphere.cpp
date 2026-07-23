@@ -10,16 +10,16 @@
 
 Sphere::Sphere(Coord coord)
 {
-    this->pos.x = coord.x;
-    this->pos.y = coord.y;
-    this->pos.z = coord.z;
+    this->x = coord.x;
+    this->y = coord.y;
+    this->z = coord.z;
 }
 
 Sphere::Sphere(float x, float y, float z)
 {
-    this->pos.x = x;
-    this->pos.y = y;
-    this->pos.z = z;
+    this->x = x;
+    this->y = y;
+    this->z = z;
 }
 
 // setters
@@ -28,22 +28,22 @@ Sphere::Sphere(float x, float y, float z)
 // set pos with Coord struct
 void Sphere::setPos(Coord coord)
 {
-    this->pos.x = coord.x;
-    this->pos.y = coord.y;
-    this->pos.z = coord.z;
+    this->x = coord.x;
+    this->y = coord.y;
+    this->z = coord.z;
 }
 
 // set pos with x, y, z input
 void Sphere::setPos(float x, float y, float z)
 {
-    this->pos.x = x;
-    this->pos.y = y;
-    this->pos.z = z;
+    this->x = x;
+    this->y = y;
+    this->z = z;
 }
 
 // getters
 // --------------------------------------------------------------------------
 Coord Sphere::getPos()
 {
-    return {this->pos.x, this->pos.y, this->pos.z};
+    return {this->x, this->y, this->z};
 }
