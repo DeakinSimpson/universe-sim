@@ -11,7 +11,8 @@ struct Coord {
 class Sphere {
 public:
 
-    Sphere();
+    Sphere(Coord coord);
+    Sphere(float x, float y, float z);
 
     void setPos(Coord coord);
     void setPos(float x, float y, float z);
