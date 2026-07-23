@@ -69,7 +69,7 @@ float Sphere::getRadius()
 // --------------------------------------------------------------------------
 
 // gets an array of verticies for the sphere
-std::vector<float> Sphere::getVerticies()
+void Sphere::setVerticies()
 {
     // create the output verticies vector
     std::vector<float> verticies;
@@ -99,6 +99,10 @@ std::vector<float> Sphere::getVerticies()
         }
     }
 
-    // return the verticies of the sphere
-    return verticies;
+    this->verticies = verticies;
+}
+
+void setIndicies()
+{
+
 }

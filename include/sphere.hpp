@@ -31,7 +31,10 @@ private:
     float y;
     float z;
     float radius;
+    std::vector<float> verticies;
+    std::vector<unsigned int> indicies;
 
     // functions
-    std::vector<float> getVerticies();
+    void setVerticies();
+    void setIndicies();
 };
