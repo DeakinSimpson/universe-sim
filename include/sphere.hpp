@@ -13,10 +13,10 @@ public:
 
     Sphere();
 
-    void setPosition(Coord coord);
-    void setPosition(float x, float y, float z);
-    
-    Coord getPosition();
+    void setPos(Coord coord);
+    void setPos(float x, float y, float z);
+
+    Coord getPos();
 
 private:
     Coord pos;

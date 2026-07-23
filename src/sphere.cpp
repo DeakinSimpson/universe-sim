@@ -11,21 +11,21 @@ Sphere::Sphere()
 
 }
 
-void Sphere::setPosition(Coord coord)
+void Sphere::setPos(Coord coord)
 {
     this->pos.x = coord.x;
     this->pos.y = coord.y;
     this->pos.z = coord.z;
 }
 
-void Sphere::setPosition(float x, float y, float z)
+void Sphere::setPos(float x, float y, float z)
 {
     this->pos.x = x;
     this->pos.y = y;
     this->pos.z = z;
 }
 
-Coord Sphere::getPosition()
+Coord Sphere::getPos()
 {
     return {this->pos.x, this->pos.y, this->pos.z};
 }

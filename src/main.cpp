@@ -29,8 +29,8 @@ int main()
 
     Sphere sphere = Sphere();
     // sphere.setPosition({1, 2, 3});
-    sphere.setPosition(1, 2, 3);
-    std::cout << sphere.getPosition().x << std::endl;
+    sphere.setPos(1, 2, 3);
+    std::cout << sphere.getPos().x << std::endl;
 
     // render loop
     while(!glfwWindowShouldClose(window ))
