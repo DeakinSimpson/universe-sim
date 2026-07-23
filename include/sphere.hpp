@@ -1,6 +1,7 @@
 #pragma once
 
 #include<vector>
+#include<shader.hpp>
 
 // Coord struct, used as an easy way to get the position without using fixed sized arrays with indexing to get value
 struct Coord {
@@ -23,7 +24,7 @@ public:
     Coord getPos();
     float getRadius();
 
-
+    void setShader(const char* vertex_shader, const char* fragment_shader);
 
 private:
     // variables
@@ -33,6 +34,7 @@ private:
     float radius;
     std::vector<float> verticies;
     std::vector<unsigned int> indicies;
+    Shader* shader;
 
     // functions
     void setVerticies();

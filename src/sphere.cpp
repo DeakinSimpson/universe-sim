@@ -18,6 +18,7 @@ Sphere::Sphere(float radius, Coord coord)
     this->x = coord.x;
     this->y = coord.y;
     this->z = coord.z;
+    this->shader = nullptr;
 }
 
 Sphere::Sphere(float radius, float x, float y, float z)
@@ -26,6 +27,7 @@ Sphere::Sphere(float radius, float x, float y, float z)
     this->x = x;
     this->y = y;
     this->z = z;
+    this->shader = nullptr;
 }
 
 // setters
@@ -51,6 +53,11 @@ void Sphere::setPos(float x, float y, float z)
 void Sphere::setRadius(float radius)
 {
     this->radius = radius;
+}
+
+void Sphere::setShader(const char* vertex_shader, const char* fragment_shader)
+{
+    this->shader = new Shader(vertex_shader, fragment_shader);
 }
 
 // getters
@@ -140,3 +147,4 @@ void Sphere::setIndicies()
 
     this->indicies = indicies;
 }
+
