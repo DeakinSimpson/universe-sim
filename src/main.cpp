@@ -27,7 +27,7 @@ int main()
     glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
     viewWindow->ourShader.setMat4("projection", projection); 
 
-    Sphere sphere = Sphere(1, 2, 3);
+    Sphere sphere = Sphere(1, 1, 2, 3);
     // sphere.setPosition({1, 2, 3});
     std::cout << sphere.getPos().x << std::endl;
 
