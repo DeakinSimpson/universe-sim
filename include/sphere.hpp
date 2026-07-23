@@ -11,16 +11,22 @@ struct Coord {
 
 class Sphere {
 public:
-    Sphere(Coord coord);
-    Sphere(float x, float y, float z);
+    Sphere(float radius, Coord coord);
+    Sphere(float radius, float x, float y, float z);
 
+    // setters
     void setPos(Coord coord);
     void setPos(float x, float y, float z);
+    void setRadius(float radius);
 
+    // getters
     Coord getPos();
+    float getRadius();
 
 private:
     float x;
     float y;
     float z;
+
+    float radius;
 };
