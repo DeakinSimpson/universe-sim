@@ -13,6 +13,7 @@
 GLFWwindow* startGLFW();
 void beginFrame();
 void updateDeltaTime();
+void endFrame(GLFWwindow *window);
 
 ViewWindow* viewWindow = nullptr;
 
@@ -66,11 +67,7 @@ int main()
         // draw square
         drawSolidSquare();
 
-        // swaps colour buffers
-        glfwSwapBuffers(window);
-
-        // checks if any events are triggered
-        glfwPollEvents();
+        endFrame(window);
     }
 
     // cleanup
@@ -87,4 +84,13 @@ void beginFrame()
     // set the background colour (RGBA)
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void endFrame(GLFWwindow *window)
+{
+    // swaps colour buffers
+    glfwSwapBuffers(window);
+
+    // checks if any events are triggered
+    glfwPollEvents();
 }
