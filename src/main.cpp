@@ -28,7 +28,8 @@ int main()
     viewWindow->ourShader.setMat4("projection", projection); 
 
     Sphere sphere = Sphere();
-    sphere.setPosition({1, 2, 3});
+    // sphere.setPosition({1, 2, 3});
+    sphere.setPosition(1, 2, 3);
     std::cout << sphere.getPosition().x << std::endl;
 
     // render loop
@@ -36,11 +37,13 @@ int main()
     {
         viewWindow->updateDeltaTime();
 
+        beginFrame();
+
         // checks for input each frame
         viewWindow->processInput(window);
-
-        beginFrame();
         
+        // TO REMOVE AFTER drawSphere is implemented
+        // --------------------------------------------------------------------------------------------------------------------------------------------
         // activate shader
         viewWindow->ourShader.use();
 
@@ -66,6 +69,7 @@ int main()
 
         // draw square
         drawSolidSquare();
+        // --------------------------------------------------------------------------------------------------------------------------------------------
 
         endFrame(window);
     }
