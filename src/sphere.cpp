@@ -102,7 +102,41 @@ void Sphere::setVerticies()
     this->verticies = verticies;
 }
 
-void setIndicies()
+void Sphere::setIndicies()
 {
+    // create the output vector
+    std::vector<unsigned int> indicies;
 
+        // loop through each verticle (latitude) angle (-1 because it indexs the line above)
+    for (int lat_increment = 0; lat_increment < lat_line_count - 1; ++lat_increment)
+    {
+        for (int lon_increment = 0; lon_increment < lon_line_count; ++lon_increment)
+        {
+            // get current lat pos
+            int top_ring_pos = (lat_increment * lon_line_count);
+            int bottom_ring_pos = ((lat_increment + 1) * lon_line_count);
+
+            int left_ring_pos = (lon_increment % lon_line_count);
+            int right_ring_pos = ((lon_increment  + 1) % lon_line_count);
+
+            // get the verticies of the quad
+            int top_left        = top_ring_pos    + left_ring_pos;
+            int top_right       = top_ring_pos    + right_ring_pos;
+            int bottom_left     = bottom_ring_pos + left_ring_pos;
+            int bottom_right    = bottom_ring_pos + right_ring_pos;
+
+            // add the indicies to the indicies array (must share same diagonal)
+            // --------------------------------------
+            // first triangle
+            indicies.push_back(top_left);
+            indicies.push_back(top_right);
+            indicies.push_back(bottom_left);
+            // second triangle
+            indicies.push_back(top_right);
+            indicies.push_back(bottom_right);
+            indicies.push_back(bottom_left);
+        }
+    }
+
+    this->indicies = indicies;
 }
