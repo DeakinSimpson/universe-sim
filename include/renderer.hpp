@@ -2,4 +2,5 @@
 
 void initRenderer();
 void cleanRenderer();
-void drawSquare(unsigned int texture);
+void drawTexturedSquare(unsigned int texture);
+void drawSolidSquare();

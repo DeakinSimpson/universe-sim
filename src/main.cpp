@@ -8,6 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <camera.hpp>
 #include <viewWindow.hpp>
+#include <sphere.hpp>
 
 GLFWwindow* startGLFW();
 
@@ -16,24 +17,16 @@ ViewWindow* viewWindow = nullptr;
 int main()
 {
     GLFWwindow *window = ViewWindow::startGLFW();
-    viewWindow = new ViewWindow("shaders/3.3.shader.vs", "shaders/3.3.shader.fs");
+    viewWindow = new ViewWindow("shaders/solid.shader.vs", "shaders/solid.shader.fs");
     initRenderer();
-
-    // Texture Rendering
-    // -------------------------------------------------------------------------------
-    // create both texture vartiables
-    unsigned int texture1, texture2;
-    texture1 = viewWindow->loadJPG("resources/textures/car.jpg");
-    texture2 = viewWindow->loadJPG("resources/textures/gigachad.jpg");
-    
-    // added texture to our shader (ourShader)
-    viewWindow->ourShader.use();
-    viewWindow->ourShader.setInt("texture1", 0);
-    viewWindow->ourShader.setInt("texture2", 1);
 
     // set camera settings
     glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
     viewWindow->ourShader.setMat4("projection", projection); 
+
+    Sphere sphere = Sphere();
+    sphere.setPosition({1, 2, 3});
+    std::cout << sphere.getPosition().x << std::endl;
 
     // render loop
     while(!glfwWindowShouldClose(window ))
@@ -49,12 +42,6 @@ int main()
         // set the background colour (RGBA)
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // bind textures on corresponding texture units
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture2);
         
         // activate shader
         viewWindow->ourShader.use();
@@ -65,7 +52,7 @@ int main()
 
         // camera/view transformation
         glm::mat4 view = viewWindow->camera.GetViewMatrix();
-        viewWindow->ourShader.setMat4("view", view);
+        viewWindow->ourShader.setVec3("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
         // create transformations
         glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
@@ -80,7 +67,7 @@ int main()
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
 
         // draw square
-        drawSquare(texture1);
+        drawSolidSquare();
 
         // swaps colour buffers
         glfwSwapBuffers(window);

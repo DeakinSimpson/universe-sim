@@ -41,7 +41,7 @@ void cleanRenderer() {
     glDeleteBuffers(1, &EBO);
 }
 
-void drawSquare(unsigned int texture) {
+void drawTexturedSquare(unsigned int texture) {
     // set the verticies for the triangle
     float vertices[] = {
         // positions          // texture coords
@@ -83,4 +83,44 @@ void drawSquare(unsigned int texture) {
 
     // clear the vertex buffer
     glBindVertexArray(0);
+}
+
+void drawSolidSquare() {
+    // set the verticies for the triangle
+    float vertices[] = {
+        0.5f,  0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        -0.5f,  0.5f, 0.0f
+    };
+    unsigned int indices[] = {  // note that we start from 0!
+        0, 1, 3,   // first triangle
+        1, 2, 3    // second triangle
+    }; 
+
+    glBindVertexArray(VAO);
+
+    // set the vertex buffer object
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    // set the edge buffer array (indicies)
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // clear the buffer array by setting 0
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // draw the elements in the buffers
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    // clear the vertex buffer
+    glBindVertexArray(0);    
+}
+
+void drawSphere() {
+    
 }
