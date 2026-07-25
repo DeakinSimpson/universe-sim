@@ -135,20 +135,24 @@ void drawSphere(const Sphere &sphere)
     Shader* shader = sphere.getShader();
     shader->use();
 
-    // get the projection plane
+    // get the projection matrix
     glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
+    // set the "projection" variable in the shader to projection matrix
     shader->setMat4("projection", projection);
 
-    // get the viewport plane
+    // get the viewport matrix
     glm::mat4 view = viewWindow->camera.GetViewMatrix();
+    // set the "view" variable in the shader to view matrix
     shader->setMat4("view", view);
 
     // translate the model based on the cameras position
     Coord pos = sphere.getPos();
+    // translate the spheres verticie postitions
     glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(pos.x, pos.y, pos.z));
+    // set model variable in shader to model matrix
     shader->setMat4("model", model);
 
-    // set the shader colour to white
+    // set the shader colour "objectColor" to white
     shader->setVec3("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
     // rendering
@@ -178,3 +182,4 @@ void drawSphere(const Sphere &sphere)
     // clear the vertex buffer
     glBindVertexArray(0);   
 }
+

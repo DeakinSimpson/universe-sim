@@ -32,9 +32,6 @@ public:
     ViewWindow(const char* vertex_shader_path, const char* fragment_shader_path);
 
     // initialise glfw
-    // (static: this runs BEFORE any ViewWindow object exists, so it can't
-    // depend on instance data — that's also why it doesn't touch SCR_WIDTH/
-    // SCR_HEIGHT, just the free screen_width/screen_height globals above)
     static GLFWwindow* startGLFW();
 
     // processes the input keys for the window
@@ -44,9 +41,7 @@ public:
 
     // glfw: whenever the mouse moves, this callback is called
     // -------------------------------------------------------
-    // (static: GLFW calls these directly and only understands plain
-    // function pointers, not "a function that belongs to an object" —
-    // they reach instance data through the static `instance` pointer below)
+
     static void mouse_callback(GLFWwindow*, double xposIn, double yposIn);
     static void scroll_callback(GLFWwindow*, double, double yoffset);
     static void framebuffer_size_callback(GLFWwindow*, int width, int height);
