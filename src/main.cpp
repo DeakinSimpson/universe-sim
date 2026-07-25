@@ -30,11 +30,6 @@ int main()
 
     Sphere sphere = Sphere(1, 1, 2, 3);
     sphere.setShader("shaders/solid.shader.vs", "shaders/solid.shader.fs");
-
-    // translate the model based on the cameras position
-    Coord pos = sphere.getPos();
-    // translate the spheres verticie postitions
-    glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(pos.x, pos.y, pos.z));
    
     // render loop
     while(!glfwWindowShouldClose(window ))
@@ -47,7 +42,7 @@ int main()
         viewWindow->processInput(window);
         
         // drawSphere(sphere);
-        drawObject(sphere.getVerticies(), sphere.getIndicies(), sphere.getShader(), model);
+        drawObject(sphere.getVerticies(), sphere.getIndicies(), sphere.getShader(), sphere.getModelMatrix());
         // --------------------------------------------------------------------------------------------------------------------------------------------
 
         endFrame(window);

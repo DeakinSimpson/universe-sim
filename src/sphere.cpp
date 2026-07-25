@@ -1,6 +1,9 @@
 #include<sphere.hpp>
 #include<vector>
 #include<math.h>
+#include<glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 // for testing
 #include<iostream>
@@ -91,6 +94,12 @@ std::vector<unsigned int> Sphere::getIndicies() const
 Shader* Sphere::getShader() const
 {
     return this->shader;
+}
+
+// gets the initial models matrix for the position of the sphere
+glm::mat4 Sphere::getModelMatrix()
+{
+    return glm::translate(glm::mat4(1.0f), glm::vec3(this->x, this->y, this->z));
 }
 
 // functions
