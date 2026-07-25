@@ -93,6 +93,24 @@ void ViewWindow::processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
 
+    // toggle wireframe
+    // check if E is pressed
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        // if pressed and pressed wireframe, then change to fill
+        if (!ePressedLastFrame)
+        {
+            wireframe = !wireframe;
+            glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
+        }
+        ePressedLastFrame = true;
+    }
+    else
+    {
+        // if pressed and not pressed last frame process
+        ePressedLastFrame = false;
+    }
+
 }
 
 // glfw: whenever the mouse moves, this callback is called

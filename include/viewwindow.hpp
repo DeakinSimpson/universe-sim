@@ -28,6 +28,10 @@ public:
     // shader variables
     Shader ourShader;
 
+    // toggle wireframe variables
+    bool wireframe = false;
+    bool ePressedLastFrame = false;
+
     // window constructer
     ViewWindow(const char* vertex_shader_path, const char* fragment_shader_path);
 

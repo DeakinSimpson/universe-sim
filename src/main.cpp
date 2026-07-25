@@ -22,7 +22,6 @@ int main()
     GLFWwindow *window = ViewWindow::startGLFW();
     viewWindow = new ViewWindow("shaders/solid.shader.vs", "shaders/solid.shader.fs");
     initRenderer();
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     Sphere sphere = Sphere(1, 1, 2, 3);
     sphere.setShader("shaders/solid.shader.vs", "shaders/solid.shader.fs");
@@ -31,7 +30,6 @@ int main()
     while(!glfwWindowShouldClose(window ))
     {
         viewWindow->updateDeltaTime();
-
         beginFrame();
 
         // checks for input each frame
@@ -39,7 +37,6 @@ int main()
         
         // drawSphere(sphere);
         drawObject(sphere.getVerticies(), sphere.getIndicies(), sphere.getShader(), sphere.getModelMatrix());
-        // --------------------------------------------------------------------------------------------------------------------------------------------
 
         endFrame(window);
     }
