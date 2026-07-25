@@ -48,6 +48,9 @@ void cleanRenderer() {
     glDeleteBuffers(1, &EBO);
 }
 
+
+glm::vec3 initialColour = glm::vec3(0.1f, 1.0f, 1.0f);
+
 void drawObject(const std::vector<float> &verticies, const std::vector<unsigned int> &indicies, Shader* shader, glm::mat4 model)
 {
     // activate the shader
@@ -67,7 +70,54 @@ void drawObject(const std::vector<float> &verticies, const std::vector<unsigned 
     shader->setMat4("model", model);
 
     // set the shader colour "objectColor" to white
-    shader->setVec3("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
+    shader->setVec3("objectColor", initialColour);
+
+    glBindVertexArray(VAO);
+
+    // set the vertex buffer object
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, verticies.size() * sizeof(float), verticies.data(), GL_STATIC_DRAW);
+
+    // set the edge buffer array (indicies)
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(unsigned int), indicies.data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // clear the buffer array by setting 0
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // draw the elements in the buffers
+    glDrawElements(GL_TRIANGLES, indicies.size(), GL_UNSIGNED_INT, 0);
+
+    // clear the vertex buffer
+    glBindVertexArray(0);   
+}
+
+void drawObjectNew(const std::vector<float> &verticies, const std::vector<unsigned int> &indicies, Shader* shader, glm::mat4 model)
+{
+    // activate the shader
+    shader->use();
+
+    // get the projection matrix
+    glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
+    // set the "projection" variable in the shader to projection matrix
+    shader->setMat4("projection", projection);
+
+    // get the viewport matrix
+    glm::mat4 view = viewWindow->camera.GetViewMatrix();
+    // set the "view" variable in the shader to view matrix
+    shader->setMat4("view", view);
+
+    // set model variable in shader to model matrix
+    shader->setMat4("model", model);
+
+    // set the shader colour "objectColor" to white
+    shader->setVec3("objectColor", initialColour);
+
+    // set the lightColor
+    shader->setVec3("lightColor", glm::vec3(0.8f, 0.1f, 0.1f));
 
     glBindVertexArray(VAO);
 

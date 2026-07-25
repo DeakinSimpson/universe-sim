@@ -24,13 +24,13 @@ int main()
     initRenderer();
 
     Sphere sphere1 = Sphere(1, 1, 0, 3);
-    sphere1.setShader("shaders/solid.shader.vs", "shaders/solid.shader.fs");
+    sphere1.setShader("shaders/new.solid.shader.vs", "shaders/new.solid.shader.fs");
 
     Sphere sphere2 = Sphere(2, 4, 0, 0);
     sphere2.setShader("shaders/solid.shader.vs", "shaders/solid.shader.fs");
    
     // render loop
-    while(!glfwWindowShouldClose(window ))
+    while(!glfwWindowShouldClose(window))
     {
         viewWindow->updateDeltaTime();
         beginFrame();
@@ -39,7 +39,7 @@ int main()
         viewWindow->processInput(window);
         
         // drawSphere(sphere);
-        sphere1.draw();
+        drawObjectNew(sphere1.getVerticies(), sphere1.getIndicies(), sphere1.getShader(), sphere1.getModelMatrix());
         sphere2.draw();
 
         endFrame(window);

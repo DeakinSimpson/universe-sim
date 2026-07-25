@@ -31,6 +31,7 @@ public:
     std::vector<float> getVerticies() const;
     std::vector<unsigned int> getIndicies() const;
     glm::mat4 getModelMatrix();
+    std::vector<float> getUV();
 
     // functions
     void draw();
@@ -43,9 +44,11 @@ private:
     float radius;
     std::vector<float> verticies;
     std::vector<unsigned int> indicies;
+    std::vector<float> uv;
     Shader* shader;
     
     // functions
     void setVerticies();
     void setIndicies();
+    void setUV();
 };

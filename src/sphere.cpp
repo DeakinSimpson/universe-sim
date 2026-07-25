@@ -97,6 +97,11 @@ Shader* Sphere::getShader() const
     return this->shader;
 }
 
+std::vector<float> Sphere::getUV()
+{
+    return this->uv;
+}
+
 // TODO! add variable model to not perform translation every frame
 // gets the initial models matrix for the position of the sphere
 glm::mat4 Sphere::getModelMatrix()
@@ -188,3 +193,24 @@ void Sphere::setIndicies()
     this->indicies = indicies;
 }
 
+void Sphere::setUV()
+{
+    std::vector<float> uv;
+
+    // loop through all verticies
+    for (int lat_increment = 0; lat_increment <= lat_line_count; ++lat_increment)
+    {
+        for (int lon_increment = 0; lon_increment < lon_line_count; ++lon_increment)
+        {
+            // get both u and v values
+            float u = (float)lon_increment / lon_line_count;
+            float v = (float)lat_increment / lat_line_count;
+
+            // push them to the uv vector
+            uv.push_back(u);
+            uv.push_back(v);
+        }
+    }
+
+    this->uv = uv;
+}
