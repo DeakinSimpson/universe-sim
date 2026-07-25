@@ -2,8 +2,9 @@
 #include<vector>
 #include<math.h>
 #include<glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
+#include<renderer.hpp>
 
 // for testing
 #include<iostream>
@@ -96,13 +97,22 @@ Shader* Sphere::getShader() const
     return this->shader;
 }
 
+// TODO! add variable model to not perform translation every frame
 // gets the initial models matrix for the position of the sphere
 glm::mat4 Sphere::getModelMatrix()
 {
     return glm::translate(glm::mat4(1.0f), glm::vec3(this->x, this->y, this->z));
 }
 
-// functions
+// public functions
+// --------------------------------------------------------------------------
+void Sphere::draw()
+{
+    // TODO! add variable model to not perform translation every frame
+    drawObject(this->verticies, this->indicies, this->shader, getModelMatrix());
+}
+
+// private functions
 // --------------------------------------------------------------------------
 
 // gets an array of verticies for the sphere

@@ -32,6 +32,9 @@ public:
     std::vector<unsigned int> getIndicies() const;
     glm::mat4 getModelMatrix();
 
+    // functions
+    void draw();
+
 private:
     // variables
     float x;

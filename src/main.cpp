@@ -23,8 +23,11 @@ int main()
     viewWindow = new ViewWindow("shaders/solid.shader.vs", "shaders/solid.shader.fs");
     initRenderer();
 
-    Sphere sphere = Sphere(1, 1, 2, 3);
-    sphere.setShader("shaders/solid.shader.vs", "shaders/solid.shader.fs");
+    Sphere sphere1 = Sphere(1, 1, 0, 3);
+    sphere1.setShader("shaders/solid.shader.vs", "shaders/solid.shader.fs");
+
+    Sphere sphere2 = Sphere(2, 4, 0, 0);
+    sphere2.setShader("shaders/solid.shader.vs", "shaders/solid.shader.fs");
    
     // render loop
     while(!glfwWindowShouldClose(window ))
@@ -36,7 +39,8 @@ int main()
         viewWindow->processInput(window);
         
         // drawSphere(sphere);
-        drawObject(sphere.getVerticies(), sphere.getIndicies(), sphere.getShader(), sphere.getModelMatrix());
+        sphere1.draw();
+        sphere2.draw();
 
         endFrame(window);
     }
