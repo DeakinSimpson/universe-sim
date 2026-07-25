@@ -2,8 +2,9 @@
 
 #include<sphere.hpp>
 
+// initialise the renderer variables
 void initRenderer();
 void cleanRenderer();
-void drawTexturedSquare(unsigned int texture);
-void drawSolidSquare();
-void drawSphere(const Sphere &sphere);
+
+// draw 3d objects
+void drawObject(const std::vector<float> &verticies, const std::vector<unsigned int> &indicies, Shader* shader, glm::mat4 model);
