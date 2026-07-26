@@ -23,6 +23,7 @@ public:
     void setPos(float x, float y, float z);
     void setRadius(float radius);
     void setShader(const char* vertex_shader, const char* fragment_shader);
+    void addPos(float x, float y, float z);
 
     // getters
     Coord getPos() const;
@@ -36,7 +37,7 @@ public:
     std::vector<float> getNormals() const;
 
     // functions
-    void draw();
+    void draw(glm::vec3 lightPos);
 
 private:
     // variables

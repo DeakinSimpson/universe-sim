@@ -10,8 +10,8 @@
 #include<iostream>
 
 // TODO: change later as these are static and not customisable
-static int lat_line_count = 10;
-static int lon_line_count = 10;
+static int lat_line_count = 100;
+static int lon_line_count = 100;
 
 // contructors
 // --------------------------------------------------------------------------
@@ -73,6 +73,14 @@ void Sphere::setShader(const char* vertex_shader, const char* fragment_shader)
 {
     this->shader = new Shader(vertex_shader, fragment_shader);
 }
+
+void Sphere::addPos(float x, float y, float z)
+{
+    this->x += x;
+    this->y += y;
+    this->z += z;
+}
+
 
 // getters
 // --------------------------------------------------------------------------
@@ -146,10 +154,10 @@ std::vector<float> Sphere::getInterleavedVerticies() const
 
 // public functions
 // --------------------------------------------------------------------------
-void Sphere::draw()
+void Sphere::draw(glm::vec3 lightPos)
 {
     // TODO! add variable model to not perform translation every frame
-    drawObject(getInterleavedVerticies(), this->indicies, this->shader, getModelMatrix());
+    drawObject(getInterleavedVerticies(), this->indicies, this->shader, getModelMatrix(), lightPos);
 }
 
 // private functions

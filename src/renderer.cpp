@@ -51,7 +51,7 @@ void cleanRenderer() {
 
 glm::vec3 initialColour = glm::vec3(1.0f, 1.0f, 1.0f);
 
-void drawObject(const std::vector<float> &verticies, const std::vector<unsigned int> &indicies, Shader* shader, glm::mat4 model)
+void drawObject(const std::vector<float> &verticies, const std::vector<unsigned int> &indicies, Shader* shader, glm::mat4 model, glm::vec3 lightPos)
 {
     // activate the shader
     shader->use();
@@ -76,7 +76,6 @@ void drawObject(const std::vector<float> &verticies, const std::vector<unsigned 
     shader->setVec3("lightColor", glm::vec3(1.0f, 0.85f, 0.61f));
 
     // set up a light
-    glm::vec3 lightPos = glm::vec3(4.0f, 4.0f, 4.0f);
     shader->setVec3("lightPos", lightPos);
 
     glBindVertexArray(VAO);
