@@ -9,6 +9,7 @@
 #include<camera.hpp>
 #include<sphere.hpp>
 #include<engine.hpp>
+#include<planet.hpp>
 
 void beginFrame();
 void endFrame(GLFWwindow *window);
@@ -21,10 +22,10 @@ int main()
     engine = new Engine();
     engine->init();
 
-    Sphere planet = Sphere(1, 1, 0, 3);
-    planet.setShader("shaders/planet.vs", "shaders/planet.fs");
+    Planet earth = Planet(1, 1, 0, 3, 1, 1, 1);
+    earth.setShader("shaders/planet.vs", "shaders/planet.fs");
 
-    Sphere sun = Sphere(2, 4, 0, 0);
+    Planet sun = Planet(2, 4, 0, 3, 1, 1, 1);
     sun.setShader("shaders/sun.vs", "shaders/sun.fs");
 
    
@@ -39,9 +40,9 @@ int main()
         
         // drawSphere(sphere);
         sun.draw(glm::vec3(sun.getPos().x, sun.getPos().y, sun.getPos().z));
-        planet.draw(glm::vec3(sun.getPos().x, sun.getPos().y, sun.getPos().z));
+        earth.draw(glm::vec3(sun.getPos().x, sun.getPos().y, sun.getPos().z));
 
-        planet.addPos(0.01, 0, 0);
+        earth.addPos(0.01, 0, 0);
 
         endFrame(engine->window);
     }
