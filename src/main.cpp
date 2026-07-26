@@ -27,7 +27,7 @@ int main()
     sphere1.setShader("shaders/new.solid.shader.vs", "shaders/new.solid.shader.fs");
 
     Sphere sphere2 = Sphere(2, 4, 0, 0);
-    sphere2.setShader("shaders/solid.shader.vs", "shaders/solid.shader.fs");
+    sphere2.setShader("shaders/new.solid.shader.vs", "shaders/new.solid.shader.fs");
 
    
     // render loop
@@ -40,7 +40,7 @@ int main()
         engine->camera.processInput(engine->window, engine->deltaTime);
         
         // drawSphere(sphere);
-        drawObjectNew(sphere1.getInterleavedVerticies(), sphere1.getIndicies(), sphere1.getShader(), sphere1.getModelMatrix());
+        sphere1.draw();
         sphere2.draw();
 
         endFrame(engine->window);

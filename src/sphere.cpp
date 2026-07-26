@@ -149,7 +149,7 @@ std::vector<float> Sphere::getInterleavedVerticies() const
 void Sphere::draw()
 {
     // TODO! add variable model to not perform translation every frame
-    drawObject(this->verticies, this->indicies, this->shader, getModelMatrix());
+    drawObject(getInterleavedVerticies(), this->indicies, this->shader, getModelMatrix());
 }
 
 // private functions
