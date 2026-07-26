@@ -26,6 +26,8 @@ Sphere::Sphere(float radius, Coord coord)
 
     setVerticies();
     setIndicies();
+    setUV();
+    setNormals();
 }
 
 Sphere::Sphere(float radius, float x, float y, float z)
@@ -38,6 +40,8 @@ Sphere::Sphere(float radius, float x, float y, float z)
 
     setVerticies();
     setIndicies();
+    setUV();
+    setNormals();
 }
 
 // setters
@@ -97,9 +101,14 @@ Shader* Sphere::getShader() const
     return this->shader;
 }
 
-std::vector<float> Sphere::getUV()
+std::vector<float> Sphere::getUV() const
 {
     return this->uv;
+}
+
+std::vector<float> Sphere::getNormals() const
+{
+    return this->normals;
 }
 
 // TODO! add variable model to not perform translation every frame
@@ -108,6 +117,32 @@ glm::mat4 Sphere::getModelMatrix()
 {
     return glm::translate(glm::mat4(1.0f), glm::vec3(this->x, this->y, this->z));
 }
+
+std::vector<float> Sphere::getInterleavedVerticies() const
+{
+    std::vector<float> interleavedVerticies;
+
+    // loop through all verticies (verticies and uv and create a final output)
+    for (size_t i = 0; i < this->verticies.size() / 3; i++)
+    {
+        // push verticies
+        interleavedVerticies.push_back(this->verticies[(i * 3)    ]); // push x
+        interleavedVerticies.push_back(this->verticies[(i * 3) + 1]); // push y
+        interleavedVerticies.push_back(this->verticies[(i * 3) + 2]); // push z
+
+        // // push uv
+        // interleavedVerticies.push_back(this->uv[(i * 2)    ]); // push u
+        // interleavedVerticies.push_back(this->uv[(i * 2) + 1]); // push v
+
+        // push normals (nx, ny, nz)
+        interleavedVerticies.push_back(this->normals[(i * 3)    ]);
+        interleavedVerticies.push_back(this->normals[(i * 3) + 1]);
+        interleavedVerticies.push_back(this->normals[(i * 3) + 2]);
+    }
+
+    return interleavedVerticies;
+}
+
 
 // public functions
 // --------------------------------------------------------------------------
@@ -213,4 +248,22 @@ void Sphere::setUV()
     }
 
     this->uv = uv;
+}
+
+void Sphere::setNormals()
+{
+    std::vector<float> normals;
+
+    float length_inverse = 1.0f / this->radius;
+
+    // loop through all verticies
+    for (size_t i = 0; i < verticies.size() / 3; i++)
+    {
+        // push the normals for all 
+        normals.push_back(verticies[i * 3]     * length_inverse);
+        normals.push_back(verticies[i * 3 + 1] * length_inverse);
+        normals.push_back(verticies[i * 3 + 2] * length_inverse);
+    }
+
+    this->normals = normals;
 }

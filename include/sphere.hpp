@@ -3,8 +3,8 @@
 #include<vector>
 #include<shader.hpp>
 #include<glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
 // Coord struct, used as an easy way to get the position without using fixed sized arrays with indexing to get value
 struct Coord {
@@ -31,7 +31,9 @@ public:
     std::vector<float> getVerticies() const;
     std::vector<unsigned int> getIndicies() const;
     glm::mat4 getModelMatrix();
-    std::vector<float> getUV();
+    std::vector<float> getUV() const;
+    std::vector<float> getInterleavedVerticies() const;
+    std::vector<float> getNormals() const;
 
     // functions
     void draw();
@@ -45,10 +47,12 @@ private:
     std::vector<float> verticies;
     std::vector<unsigned int> indicies;
     std::vector<float> uv;
+    std::vector<float> normals;
     Shader* shader;
     
     // functions
     void setVerticies();
     void setIndicies();
     void setUV();
+    void setNormals();
 };

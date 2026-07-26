@@ -49,7 +49,7 @@ void cleanRenderer() {
 }
 
 
-glm::vec3 initialColour = glm::vec3(0.1f, 1.0f, 1.0f);
+glm::vec3 initialColour = glm::vec3(1.0f, 1.0f, 1.0f);
 
 void drawObject(const std::vector<float> &verticies, const std::vector<unsigned int> &indicies, Shader* shader, glm::mat4 model)
 {
@@ -117,7 +117,11 @@ void drawObjectNew(const std::vector<float> &verticies, const std::vector<unsign
     shader->setVec3("objectColor", initialColour);
 
     // set the lightColor
-    shader->setVec3("lightColor", glm::vec3(0.8f, 0.1f, 0.1f));
+    shader->setVec3("lightColor", glm::vec3(1.0f, 0.85f, 0.61f));
+
+    // set up a light
+    glm::vec3 lightPos = glm::vec3(4.0f, 4.0f, 4.0f);
+    shader->setVec3("lightPos", lightPos);
 
     glBindVertexArray(VAO);
 
@@ -129,8 +133,19 @@ void drawObjectNew(const std::vector<float> &verticies, const std::vector<unsign
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(unsigned int), indicies.data(), GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    /*
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    0 = location 0 in the shader
+    3 = the number of components (x,y,z)
+    GL_FLOAT = the component type (floats)
+    GL_FALSE = dont normalise
+    6 * sizeof(float) = the stride (how many bytes each chunck has, x,y,z,u,v)
+    (void*)0 = the offset (start at byte 0 in each chunk)
+    */
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     // clear the buffer array by setting 0
     glBindBuffer(GL_ARRAY_BUFFER, 0);
