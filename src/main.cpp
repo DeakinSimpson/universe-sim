@@ -7,21 +7,21 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <camera.hpp>
-#include <viewWindow.hpp>
 #include <sphere.hpp>
+#include<engine.hpp>
 
 GLFWwindow* startGLFW();
 void beginFrame();
 void updateDeltaTime();
 void endFrame(GLFWwindow *window);
 
-ViewWindow* viewWindow = nullptr;
+Camera* Camera::instance = nullptr;
+Engine *engine = nullptr;
 
 int main()
 {
-    GLFWwindow *window = ViewWindow::startGLFW();
-    viewWindow = new ViewWindow("shaders/solid.shader.vs", "shaders/solid.shader.fs");
-    initRenderer();
+    engine = new Engine();
+    engine->init();
 
     Sphere sphere1 = Sphere(1, 1, 0, 3);
     sphere1.setShader("shaders/new.solid.shader.vs", "shaders/new.solid.shader.fs");
@@ -31,19 +31,19 @@ int main()
 
    
     // render loop
-    while(!glfwWindowShouldClose(window))
+    while(!glfwWindowShouldClose(engine->window))
     {
-        viewWindow->updateDeltaTime();
+        engine->updateDeltaTime();
         beginFrame();
 
         // checks for input each frame
-        viewWindow->processInput(window);
+        engine->camera.processInput(engine->window, engine->deltaTime);
         
         // drawSphere(sphere);
         drawObjectNew(sphere1.getInterleavedVerticies(), sphere1.getIndicies(), sphere1.getShader(), sphere1.getModelMatrix());
         sphere2.draw();
 
-        endFrame(window);
+        endFrame(engine->window);
     }
 
     // cleanup

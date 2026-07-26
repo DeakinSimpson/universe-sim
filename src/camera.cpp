@@ -1,13 +1,26 @@
-#include <camera.hpp>
+#include<camera.hpp>
+#include<engine.hpp>
+#include<GLFW/glfw3.h>
+
+// variables
+const unsigned int screen_width = 800;
+const unsigned int screen_height = 600;
 
 // constructor with vectors
 Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
 {
+    instance = this;
+
     // set default values
     Front = glm::vec3(0.0f, 0.0f, -1.0f);
     MovementSpeed = SPEED;
     MouseSensitivity = SENSITIVITY;
     Zoom = ZOOM;
+
+    // set mouse variables
+    lastX = screen_width / 2.0f;   // centre of screen
+    lastY = screen_height / 2.0f;
+    firstMouse = true;
 
     // set inpput values
     Position = position;
@@ -20,11 +33,18 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
 // constructor with scalar values
 Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
 {
+    instance = this;
+
     // set default values
     Front = glm::vec3(0.0f, 0.0f, -1.0f);
     MovementSpeed = SPEED;
     MouseSensitivity = SENSITIVITY;
     Zoom = ZOOM;
+
+    // set mouse variables
+    lastX = screen_width / 2.0f;   // centre of screen
+    lastY = screen_height / 2.0f;
+    firstMouse = true;
 
     // set input values
     Position = glm::vec3(posX, posY, posZ);
@@ -76,14 +96,34 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constr
     updateCameraVectors();
 }
 
-// processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
-void Camera::ProcessMouseScroll(float yoffset)
+// glfw: whenever the mouse moves, this callback is called
+// -------------------------------------------------------
+void Camera::mouse_callback(GLFWwindow*, double xposIn, double yposIn)
 {
-    Zoom -= (float)yoffset;
-    if (Zoom < 1.0f)
-        Zoom = 1.0f;
-    if (Zoom > 45.0f)
-        Zoom = 45.0f;
+    float xpos = static_cast<float>(xposIn);
+    float ypos = static_cast<float>(yposIn);
+
+    if (instance->firstMouse)
+    {
+        instance->lastX = xpos;
+        instance->lastY = ypos;
+        instance->firstMouse = false;
+    }
+
+    float xoffset = xpos - instance->lastX;
+    float yoffset = instance->lastY - ypos;
+
+    instance->lastX = xpos;
+    instance->lastY = ypos;
+
+    instance->ProcessMouseMovement(xoffset, yoffset);
+}
+
+void Camera::scroll_callback(GLFWwindow*, double, double yoffset)
+{
+    instance->Zoom -= (float)yoffset;
+    if (instance->Zoom < 1.0f) instance->Zoom = 1.0f;
+    if (instance->Zoom > 45.0f) instance->Zoom = 45.0f;
 }
 
 // calculates the front vector from the Camera's (updated) Euler Angles
@@ -98,4 +138,43 @@ void Camera::updateCameraVectors()
     // also re-calculate the Right and Up vector
     Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
     Up    = glm::normalize(glm::cross(Right, Front));
+}
+
+// processes the input keys for the window
+void Camera::processInput(GLFWwindow *window, float deltaTime)
+{
+    // if the escape key is pressed
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        // set the window state to close
+        glfwSetWindowShouldClose(window, true);
+    }
+
+    // when clicking wasd move the camera 
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        ProcessKeyboard(FORWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        ProcessKeyboard(BACKWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        ProcessKeyboard(LEFT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        ProcessKeyboard(RIGHT, deltaTime);
+
+    // toggle wireframe
+    // check if E is pressed
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        // if pressed and pressed wireframe, then change to fill
+        if (!ePressedLastFrame)
+        {
+            wireframe = !wireframe;
+            glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
+        }
+        ePressedLastFrame = true;
+    }
+    else
+    {
+        // if pressed and not pressed last frame process
+        ePressedLastFrame = false;
+    }
+
 }

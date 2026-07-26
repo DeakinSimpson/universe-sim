@@ -5,9 +5,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <viewwindow.hpp>
+#include <engine.hpp>
 
-extern ViewWindow* viewWindow;
+extern Engine* engine;
 
 static unsigned int VAO; // holds setup info (including VBO & EBO)
 static unsigned int VBO; // holds vertex positions
@@ -57,12 +57,12 @@ void drawObject(const std::vector<float> &verticies, const std::vector<unsigned 
     shader->use();
 
     // get the projection matrix
-    glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(engine->camera.Zoom), (float)engine->SCR_WIDTH / (float)engine->SCR_HEIGHT, 0.1f, 100.0f);
     // set the "projection" variable in the shader to projection matrix
     shader->setMat4("projection", projection);
 
     // get the viewport matrix
-    glm::mat4 view = viewWindow->camera.GetViewMatrix();
+    glm::mat4 view = engine->camera.GetViewMatrix();
     // set the "view" variable in the shader to view matrix
     shader->setMat4("view", view);
 
@@ -101,12 +101,12 @@ void drawObjectNew(const std::vector<float> &verticies, const std::vector<unsign
     shader->use();
 
     // get the projection matrix
-    glm::mat4 projection = glm::perspective(glm::radians(viewWindow->camera.Zoom), (float)viewWindow->SCR_WIDTH / (float)viewWindow->SCR_HEIGHT, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(engine->camera.Zoom), (float)engine->SCR_WIDTH / (float)engine->SCR_HEIGHT, 0.1f, 100.0f);
     // set the "projection" variable in the shader to projection matrix
     shader->setMat4("projection", projection);
 
     // get the viewport matrix
-    glm::mat4 view = viewWindow->camera.GetViewMatrix();
+    glm::mat4 view = engine->camera.GetViewMatrix();
     // set the "view" variable in the shader to view matrix
     shader->setMat4("view", view);
 

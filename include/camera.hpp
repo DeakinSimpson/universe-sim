@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <GLFW/glfw3.h>
 
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
 enum Camera_Movement {
@@ -54,7 +55,22 @@ public:
     // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
     void ProcessMouseScroll(float yoffset);
 
+    // proccess mouse scroll to change fov
+    static void scroll_callback(GLFWwindow*, double, double yoffset);
+    static void mouse_callback(GLFWwindow*, double xposIn, double yposIn);
+    void processInput(GLFWwindow *window, float deltaTime);
+
 private:
+    static Camera* instance;
+
+    float lastX;
+    float lastY;
+    bool firstMouse;
+
+    // toggle wireframe variables
+    bool wireframe = false;
+    bool ePressedLastFrame = false;
+
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors();
 };
