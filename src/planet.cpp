@@ -8,7 +8,6 @@ Planet::Planet(float radius, float x, float y, float z, float mass, float veloci
     this->direction = direction;
 }
 
-
 // getters
 // ---------------------------------------------------------------------------------------------------
 float Planet::getMass()
