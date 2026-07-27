@@ -16,7 +16,13 @@ public:
     // getters
     std::vector<Planet> getPlanets();
 
+
+    // to move to private
+    float getForce(int planet1_index, int planet2_index);
+
+
 private:
     std::vector<Planet> planets;
 
+    // functions
 };

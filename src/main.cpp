@@ -10,6 +10,7 @@
 #include<sphere.hpp>
 #include<engine.hpp>
 #include<planet.hpp>
+#include<solarsystem.hpp>
 
 void beginFrame();
 void endFrame(GLFWwindow *window);
@@ -22,11 +23,17 @@ int main()
     engine = new Engine();
     engine->init();
 
-    Planet earth = Planet(1, 1, 0, 3, 1, 1, 1);
+    Planet earth = Planet(1, 3, 0, 3, 1, 1, 1);
     earth.setShader("shaders/planet.vs", "shaders/planet.fs");
 
-    Planet sun = Planet(2, 4, 0, 3, 1, 1, 1);
+    Planet sun = Planet(2, 4, 0, 2, 1, 1, 1);
     sun.setShader("shaders/sun.vs", "shaders/sun.fs");
+
+    SolarSystem solarsystem = SolarSystem();
+    solarsystem.addPlanet(earth);
+    solarsystem.addPlanet(sun);
+
+    float force = solarsystem.getForce(0, 1);
 
    
     // render loop
