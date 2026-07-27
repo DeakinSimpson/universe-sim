@@ -47,8 +47,6 @@ float SolarSystem::getForce(int planet1_index, int planet2_index)
 
     float F = G * ((m1 * m2) / (pow(r, 2)));
 
-    std::cout << "m1: " << m1 << ", m2: " << m2 << ", r2: " << r << ", F: " << F << std::endl;
-
-    return 0.0f;
+    return F;
 }
 
