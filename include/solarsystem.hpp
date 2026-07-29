@@ -18,7 +18,7 @@ public:
 
 
     // to move to private
-    float getForce(int planet1_index, int planet2_index);
+    float getGravitationalForce(int planet1_index, int planet2_index);
 
 
 private:

@@ -33,7 +33,7 @@ int main()
     solarsystem.addPlanet(earth);
     solarsystem.addPlanet(sun);
 
-    float force = solarsystem.getForce(0, 1);
+    float force = solarsystem.getGravitationalForce(0, 1);
 
    
     // render loop
