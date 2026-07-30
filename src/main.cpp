@@ -49,7 +49,7 @@ int main()
         sun.draw(glm::vec3(sun.getPos().x, sun.getPos().y, sun.getPos().z));
         earth.draw(glm::vec3(sun.getPos().x, sun.getPos().y, sun.getPos().z));
 
-        earth.addPos(0.01, 0, 0);
+        earth.addPos(0.0025, 0, 0);
 
         endFrame(engine->window);
     }
