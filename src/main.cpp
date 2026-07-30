@@ -12,6 +12,10 @@
 #include<planet.hpp>
 #include<solarsystem.hpp>
 
+/*
+This is not the development branch
+*/
+
 void beginFrame();
 void endFrame(GLFWwindow *window);
 
