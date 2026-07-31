@@ -5,7 +5,7 @@ public class Planet
     public int resolution;
 
     // private variables
-    private List<float> verticies = new List<float>();
+    private List<float> vertices = new List<float>();
     private List<uint> indicies = new List<uint>();
     private List<float> uv = new List<float>();
     private List<float> normals = new List<float>();
@@ -20,7 +20,7 @@ public class Planet
         this.resolution = resolution;
 
         // run initialisation functions
-        setVerticies();
+        setVertices();
         setIndicies();
         setUv();
         setNormals();
@@ -28,10 +28,10 @@ public class Planet
 
     // setters
     // -------------------------------------------------------------------------
-    private void setVerticies()
+    private void setVertices()
     {
-        // create the output verticies vector
-        List<float> verticies = new List<float>();
+        // create the output vertices vector
+        List<float> vertices = new List<float>();
 
         for (int lat_i = 0; lat_i < resolution; ++lat_i)
         {
@@ -50,14 +50,14 @@ public class Planet
                 float v_z = lat_radius * (float) Math.Sin(lon_angle);
                 float v_y = lon;
 
-                // add verticies to verticie array
-                verticies.Add(v_x);
-                verticies.Add(v_y);
-                verticies.Add(v_z);
+                // add vertices to verticie array
+                vertices.Add(v_x);
+                vertices.Add(v_y);
+                vertices.Add(v_z);
             }
         }
 
-        this.verticies = verticies;
+        this.vertices = vertices;
     }
 
     private void setIndicies()
@@ -77,7 +77,7 @@ public class Planet
                 int left_ring_pos = lon_i % resolution;
                 int right_ring_pos = (lon_i  + 1) % resolution;
 
-                // get the verticies of the quad
+                // get the vertices of the quad
                 int top_left        = top_ring_pos    + left_ring_pos;
                 int top_right       = top_ring_pos    + right_ring_pos;
                 int bottom_left     = bottom_ring_pos + left_ring_pos;
@@ -103,7 +103,7 @@ public class Planet
     {
         List<float> uv = new List<float>();
 
-        // loop through all verticies
+        // loop through all vertices
         for (int lat_i = 0; lat_i <= resolution; ++lat_i)
         {
             for (int lon_i = 0; lon_i < resolution; ++lon_i)
@@ -127,13 +127,13 @@ public class Planet
 
         float length_inverse = 1.0f / this.radius;
 
-        // loop through all verticies
-        for (int i = 0; i < verticies.Count() / 3; i++)
+        // loop through all vertices
+        for (int i = 0; i < vertices.Count() / 3; i++)
         {
             // push the normals for all 
-            normals.Add(verticies[i * 3]     * length_inverse);
-            normals.Add(verticies[i * 3 + 1] * length_inverse);
-            normals.Add(verticies[i * 3 + 2] * length_inverse);
+            normals.Add(vertices[i * 3]     * length_inverse);
+            normals.Add(vertices[i * 3 + 1] * length_inverse);
+            normals.Add(vertices[i * 3 + 2] * length_inverse);
         }
 
         this.normals = normals;        
@@ -143,17 +143,17 @@ public class Planet
     {
         List<float> bufferData = new List<float>();
 
-        // loop through all verticies (verticies and uv and create a final output)
-        for (int i = 0; i < verticies.Count() / 3; i++)
+        // loop through all vertices (vertices and uv and create a final output)
+        for (int i = 0; i < vertices.Count() / 3; i++)
         {
-            // push verticies
-            bufferData.Add(verticies[(i * 3)    ]); // push x
-            bufferData.Add(verticies[(i * 3) + 1]); // push y
-            bufferData.Add(verticies[(i * 3) + 2]); // push z
+            // push vertices
+            bufferData.Add(vertices[(i * 3)    ]); // push x
+            bufferData.Add(vertices[(i * 3) + 1]); // push y
+            bufferData.Add(vertices[(i * 3) + 2]); // push z
 
             // // push uv
-            // interleavedVerticies.push_back(this->uv[(i * 2)    ]); // push u
-            // interleavedVerticies.push_back(this->uv[(i * 2) + 1]); // push v
+            // interleavedVertices.push_back(this->uv[(i * 2)    ]); // push u
+            // interleavedVertices.push_back(this->uv[(i * 2) + 1]); // push v
 
             // push normals (nx, ny, nz)
             bufferData.Add(normals[(i * 3)    ]);
@@ -167,9 +167,9 @@ public class Planet
     // getters
     // -------------------------------------------------------------------------
 
-    public List<float> getVerticies()
+    public List<float> getVertices()
     {
-        return this.verticies;
+        return this.vertices;
     }
 
     public List<uint> getIndicies()
