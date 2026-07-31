@@ -2,6 +2,7 @@ public class App
 {
     private bool isRunning;
 
+    // add basic run loop
     public void Run()
     {
         Initiaise();
@@ -16,18 +17,22 @@ public class App
         Shutdown();
     }
 
+    // set initialisation variables
     private void Initiaise()
     {
         isRunning = true;
+        Planet planet = new Planet(1.0f, 1.0f, 1.0f, 1.0f, 10);
     }
 
+    // what gets updated each frame
     private void Update()
     {
         Console.WriteLine("Hello World");
     }
 
+    // cleanup
     private void Shutdown()
     {
-        // cleanup
+        
     }
 }
