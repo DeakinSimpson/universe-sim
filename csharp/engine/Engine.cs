@@ -1,11 +1,14 @@
 using Silk.NET.Input;
 using Silk.NET.Maths;
+using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
+using System.Drawing;
 
 public class WindowObj
 {
     // reference to the window
     private static IWindow _window;
+    private static Renderer renderer;
 
     // set the default window options
     WindowOptions options = WindowOptions.Default with
@@ -14,7 +17,7 @@ public class WindowObj
         Size = new Vector2D<int>(800, 600),
 
         // set the top title
-        Title = "My first Silk.NET application!"
+        Title = "Universe Simulator"
     };
 
     // initialise the WindowObj
@@ -43,6 +46,9 @@ public class WindowObj
         {
             input.Keyboards[i].KeyDown += KeyDown;
         }
+
+        // load the opengl renderer
+        renderer = new Renderer(_window);
     }
 
     // runs code before rendering, great for things that need to change each frame
@@ -54,7 +60,7 @@ public class WindowObj
     // renders the frame
     private static void OnRender(double deltaTime)
     {
-        // Console.WriteLine("Render!");
+        renderer.onRender();
     }
 
     // checks if key is pressed
@@ -64,4 +70,31 @@ public class WindowObj
             _window.Close();
     }
 
+}
+
+public class Renderer
+{
+    private static GL gl;
+
+    public Renderer(IWindow window)
+    {
+        gl = window.CreateOpenGL();
+        Console.WriteLine("OpenGL opened successfully");
+
+        setBackgroundColour(Color.CornflowerBlue);
+    }
+
+    public void onRender()
+    {
+        setBackgroundColour(Color.CornflowerBlue);
+    }
+
+    private void setBackgroundColour(Color color)
+    {
+        // set the clear colour
+        gl.ClearColor(color);
+
+        // render the clear colour
+        gl.Clear(ClearBufferMask.ColorBufferBit);
+    }
 }
