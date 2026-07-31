@@ -23,6 +23,7 @@ public class App
         isRunning = true;
         Planet planet = new Planet(1.0f, 1.0f, 1.0f, 1.0f, 10);
         List<float> planetBufferData = planet.getBufferData();
+        WindowObj windowObj = new WindowObj();
     }
 
     // what gets updated each frame
