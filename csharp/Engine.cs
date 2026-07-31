@@ -92,7 +92,7 @@ public class WindowObj
         renderer.onRender();
 
         // render planet
-        renderer.renderObject(planet.getVertices(), planet.getIndicies());
+        renderer.renderObject(planet.getVertices(), planet.getIndicies(), shader);
     }
 
     // checks if key is pressed
@@ -135,9 +135,12 @@ public class Renderer
         // initRenderer() rather than repeating it every draw call in C++
         unsafe
         {
-            gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*)0);
+            // TODO: update this to use attribute pointers from getBufferData
+            gl.EnableVertexAttribArray(0);
+            gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*) 0); 
         }
-        gl.EnableVertexAttribArray(0);
+
+
 
         gl.BindVertexArray(0);
     }
@@ -156,7 +159,7 @@ public class Renderer
         gl.Clear(ClearBufferMask.ColorBufferBit);
     }
 
-    public unsafe void renderObject(List<float> vertices, List<uint> indices)
+    public unsafe void renderObject(List<float> vertices, List<uint> indices, Shader shader)
     {
         // convert lists to arrays
         float[] vertexArray = vertices.ToArray();
@@ -174,10 +177,20 @@ public class Renderer
         fixed (uint* buf = indexArray)
             gl.BufferData(BufferTargetARB.ElementArrayBuffer, (nuint)(indexArray.Length * sizeof(uint)), buf, BufferUsageARB.StaticDraw);
 
-        // the actual draw call
-        gl.DrawElements(PrimitiveType.Triangles, (uint)indexArray.Length, DrawElementsType.UnsignedInt, null);
+        // TODO: update this to use attribute pointers from getBufferData
+        const uint positionLoc = 0;
+        gl.EnableVertexAttribArray(positionLoc);
+        gl.VertexAttribPointer(positionLoc, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*) 0); 
 
+        // draw to screen
+        gl.BindVertexArray(vao);
+        gl.UseProgram(shader.program);
+        gl.DrawElements(PrimitiveType.Triangles, (uint) indices.Count(), DrawElementsType.UnsignedInt, (void*) 0);
+
+        // cleanup (clear buffers)\
         gl.BindVertexArray(0);
+        gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
+        gl.BindBuffer(BufferTargetARB.ElementArrayBuffer, 0);
     }
 
     // get the gl instance
@@ -189,7 +202,7 @@ public class Renderer
 
 public class Shader
 {
-    public static uint program;
+    public uint program;
     
     public unsafe Shader(string vertexCode, string fragmentCode, Renderer renderer)
     {
