@@ -1,3 +1,6 @@
+using System.Numerics;
+using Silk.NET.Maths;
+
 public class Planet
 {
     // public variables
@@ -185,5 +188,10 @@ public class Planet
     public List<float> getNormals()
     {
         return this.normals;
+    }
+
+    public Matrix4x4 getModel()
+    {
+        return Matrix4x4.CreateTranslation(x, y, z);
     }
 }
