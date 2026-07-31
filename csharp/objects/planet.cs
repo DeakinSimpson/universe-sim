@@ -1,5 +1,3 @@
-using System.Numerics;
-
 public class Planet
 {
     // public variables
@@ -25,9 +23,11 @@ public class Planet
         setVerticies();
         setIndicies();
         setUv();
-        setIndicies();
+        setNormals();
     }
 
+    // setters
+    // -------------------------------------------------------------------------
     private void setVerticies()
     {
         // create the output verticies vector
@@ -138,6 +138,34 @@ public class Planet
 
         this.normals = normals;        
     }
+
+    public List<float> getBufferData()
+    {
+        List<float> bufferData = new List<float>();
+
+        // loop through all verticies (verticies and uv and create a final output)
+        for (int i = 0; i < verticies.Count() / 3; i++)
+        {
+            // push verticies
+            bufferData.Add(verticies[(i * 3)    ]); // push x
+            bufferData.Add(verticies[(i * 3) + 1]); // push y
+            bufferData.Add(verticies[(i * 3) + 2]); // push z
+
+            // // push uv
+            // interleavedVerticies.push_back(this->uv[(i * 2)    ]); // push u
+            // interleavedVerticies.push_back(this->uv[(i * 2) + 1]); // push v
+
+            // push normals (nx, ny, nz)
+            bufferData.Add(normals[(i * 3)    ]);
+            bufferData.Add(normals[(i * 3) + 1]);
+            bufferData.Add(normals[(i * 3) + 2]);
+        }
+
+        return bufferData;
+    }
+
+    // getters
+    // -------------------------------------------------------------------------
 
     public List<float> getVerticies()
     {
