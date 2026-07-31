@@ -10,6 +10,29 @@ public class WindowObj
     private static IWindow _window;
     private static Renderer renderer;
     private static Planet planet;
+    private static Shader shader;
+
+    //! -- testing zone --
+    const string vertexCode = @"
+    #version 330 core
+
+    layout (location = 0) in vec3 aPosition;
+
+    void main()
+    {
+        gl_Position = vec4(aPosition, 1.0);
+    }";
+
+    const string fragmentCode = @"
+    #version 330 core
+
+    out vec4 out_color;
+
+    void main()
+    {
+        out_color = vec4(1.0, 0.5, 0.2, 1.0);
+    }";
+    //! -- end testing --
 
     // set the default window options
     WindowOptions options = WindowOptions.Default with
@@ -54,6 +77,7 @@ public class WindowObj
         // make planet
         planet = new Planet(0.0f, 0.0f, 0.0f, 1.0f, 20);
 
+        shader = new Shader(vertexCode, fragmentCode, renderer);
     }
 
     // runs code before rendering, great for things that need to change each frame
@@ -154,5 +178,76 @@ public class Renderer
         gl.DrawElements(PrimitiveType.Triangles, (uint)indexArray.Length, DrawElementsType.UnsignedInt, null);
 
         gl.BindVertexArray(0);
+    }
+
+    // get the gl instance
+    public GL getGL()
+    {
+        return gl;
+    }
+}
+
+public class Shader
+{
+    public static uint program;
+    
+    public unsafe Shader(string vertexCode, string fragmentCode, Renderer renderer)
+    {
+        GL gl = renderer.getGL();
+
+        // -- compile shaders --
+        uint vertexShader, fragmentShader;
+
+        // compile vertex
+        // set shader
+        vertexShader = gl.CreateShader(ShaderType.VertexShader);
+        gl.ShaderSource(vertexShader, vertexCode);
+        
+        // compile shader
+        gl.CompileShader(vertexShader);
+
+        // check for errors in program shader
+        gl.GetShader(vertexShader, ShaderParameterName.CompileStatus, out int vStatus);
+        if (vStatus != (int) GLEnum.True)
+        {
+            throw new Exception("Vertex shader failed to compile: " + gl.GetShaderInfoLog(vertexShader));
+        }
+
+        // compile fragment
+        // set shader
+        fragmentShader = gl.CreateShader(ShaderType.FragmentShader);
+        gl.ShaderSource(fragmentShader, fragmentCode);
+        
+        // compile shader
+        gl.CompileShader(fragmentShader);
+
+        // check for errors in fragment shader
+        gl.GetShader(fragmentShader, ShaderParameterName.CompileStatus, out int fStatus);
+        if (fStatus != (int) GLEnum.True)
+            throw new Exception("Fragment shader failed to compile: " + gl.GetShaderInfoLog(fragmentShader));        
+
+        // -- create shader program --
+        
+        // create new program
+        program = gl.CreateProgram();
+
+        // attach the vertex and fragment shader to the program
+        gl.AttachShader(program, vertexShader);
+        gl.AttachShader(program, fragmentShader);
+
+        // link the program to openGL
+        gl.LinkProgram(program);
+
+        // check for errors in program
+        gl.GetProgram(program, ProgramPropertyARB.LinkStatus, out int lStatus);
+        if (lStatus != (int) GLEnum.True)
+            throw new Exception("Program failed to link: " + gl.GetProgramInfoLog(program));
+
+        // detach the shaders
+        // TODO: check as this might need to be done in the onLoad method
+        gl.DetachShader(program, vertexShader);
+        gl.DetachShader(program, fragmentShader);
+        gl.DeleteShader(vertexShader);
+        gl.DeleteShader(fragmentShader);
     }
 }
