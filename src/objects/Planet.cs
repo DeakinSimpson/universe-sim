@@ -36,7 +36,7 @@ public class Planet
         // create the output vertices vector
         List<float> vertices = new List<float>();
 
-        for (int lat_i = 0; lat_i < resolution; ++lat_i)
+        for (int lat_i = 0; lat_i <= resolution; ++lat_i)
         {
             float lat_angle  = (-90.0f + (180.0f / resolution) * lat_i) * (3.14159265358979323f / 180.0f); // get the current angle for lat (divide the total split by current increment)
             float lat_radius = this.radius * (float) Math.Cos(lat_angle); // get the circle radius

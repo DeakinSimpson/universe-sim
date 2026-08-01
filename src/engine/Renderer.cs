@@ -19,6 +19,11 @@ public class Renderer
         gl = window.CreateOpenGL();
         Console.WriteLine("OpenGL opened successfully");
 
+        /*
+        depth testing allows for the engine to render the verticies furthest away first
+        */
+        gl.Enable(EnableCap.DepthTest);
+
         setBackgroundColour(Color.CornflowerBlue);
 
         // -- bind buffer arrays --
@@ -53,7 +58,7 @@ public class Renderer
         gl.ClearColor(color);
 
         // render the clear colour
-        gl.Clear(ClearBufferMask.ColorBufferBit);
+        gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
     }
     //! TEMP constant values
     Vector3 lightColor = new Vector3(1.0f, 0.85f, 0.61f);
