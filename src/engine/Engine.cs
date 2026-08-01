@@ -74,7 +74,7 @@ public class Engine
     private static unsafe void OnRender(double deltaTime)
     {
         // run renderer
-        renderer.setBackgroundColour(Color.Blue);
+        renderer.setBackgroundColour(Color.Black);
 
         // render the scenee
         scene.Render(renderer, camera, window);

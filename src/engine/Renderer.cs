@@ -24,7 +24,7 @@ public class Renderer
         */
         gl.Enable(EnableCap.DepthTest);
 
-        setBackgroundColour(Color.CornflowerBlue);
+        setBackgroundColour(Color.Black);
 
         // -- bind buffer arrays --
         // bind vertex array object

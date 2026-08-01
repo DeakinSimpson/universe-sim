@@ -128,4 +128,9 @@ public class Shader
 
         gl.Uniform3(location, value.X, value.Y, value.Z);
     }
+
+    public static string fileToString(string path)
+    {
+        return File.ReadAllText(path);
+    }
 }
