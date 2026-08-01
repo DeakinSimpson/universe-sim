@@ -3,7 +3,7 @@ using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
 
-public class Engine
+public class EngineOld
 {
     // initialise all Engine variables
     private static IWindow window;
@@ -19,7 +19,7 @@ public class Engine
     };
 
     // set initial variables
-    public Engine()
+    public EngineOld()
     {
         scene = new Scene();
 
