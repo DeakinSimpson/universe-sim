@@ -10,6 +10,7 @@ public class Renderer
     private static uint vao;
     private static uint vbo;
     private static uint ebo;
+    private bool wireframe = false;
 
     // initialise renderer
     public Renderer(IWindow window)
@@ -36,9 +37,11 @@ public class Renderer
         // initRenderer() rather than repeating it every draw call in C++
         unsafe
         {
-            // TODO: update this to use attribute pointers from getBufferData
             gl.EnableVertexAttribArray(0);
-            gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*) 0); 
+            gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*) 0);
+
+            gl.EnableVertexAttribArray(1);
+            gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)(3 * sizeof(float)));
         }
 
         gl.BindVertexArray(0);
@@ -52,10 +55,14 @@ public class Renderer
         // render the clear colour
         gl.Clear(ClearBufferMask.ColorBufferBit);
     }
+    //! TEMP constant values
+    Vector3 lightColor = new Vector3(1.0f, 0.85f, 0.61f);
+    Vector3 initialColor = new Vector3(1.0f, 1.0f, 1.0f);
 
     // -- renders any object --
-    public unsafe void renderObject(List<float> vertices, List<uint> indices, Shader shader, Matrix4x4 model, Camera camera, IWindow window)
+    public unsafe void renderObject(List<float> vertices, List<uint> indices, Shader shader, Matrix4x4 model, Camera camera, IWindow window, Vector3 lightPosition)
     {
+
         // activate shader
         shader.Use();
 
@@ -71,6 +78,15 @@ public class Renderer
         shader.SetUniform("model", model);
         shader.SetUniform("view", view);
         shader.SetUniform("projection", projection);
+
+        // set the shader colour "objectColor" to white
+        shader.SetUniform("objectColor", initialColor);
+
+        // set lightColor
+        shader.SetUniform("lightColor", lightColor);
+
+        // set up a light
+        shader.SetUniform("lightPos", lightPosition);
 
         // convert lists to arrays
         float[] vertexArray = vertices.ToArray();
@@ -88,10 +104,11 @@ public class Renderer
         fixed (uint* buf = indexArray)
             gl.BufferData(BufferTargetARB.ElementArrayBuffer, (nuint)(indexArray.Length * sizeof(uint)), buf, BufferUsageARB.StaticDraw);
 
-        // TODO: update this to use attribute pointers from getBufferData
-        const uint positionLoc = 0;
-        gl.EnableVertexAttribArray(positionLoc);
-        gl.VertexAttribPointer(positionLoc, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*) 0); 
+        gl.EnableVertexAttribArray(0);
+        gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*) 0);
+
+        gl.EnableVertexAttribArray(1);
+        gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
         // draw to screen
         gl.BindVertexArray(vao);
@@ -107,6 +124,12 @@ public class Renderer
     public GL getGL()
     {
         return gl;
+    }
+
+    public void ToggleWireframe()
+    {
+        wireframe = !wireframe;
+        gl.PolygonMode(GLEnum.FrontAndBack, wireframe ? GLEnum.Line : GLEnum.Fill);
     }
 }
 

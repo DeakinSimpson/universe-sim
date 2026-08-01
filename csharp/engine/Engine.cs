@@ -84,7 +84,14 @@ public class Engine
     private static void KeyDown(IKeyboard keyboard, Key key, int keyCode)
     {
         if (key == Key.Escape)
-            window.Close();
+        {
+            window.Close();            
+        }
+
+        if (key == Key.E)
+        {
+            renderer.ToggleWireframe();
+        }
     }
 
     // resize frame if window is resized

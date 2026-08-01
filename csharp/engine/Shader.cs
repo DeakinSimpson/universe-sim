@@ -116,4 +116,16 @@ public class Shader
         // set the uniform
         gl.Uniform1(location, value);
     }
+
+    public unsafe void SetUniform(string name, Vector3 value)
+    {
+        int location = gl.GetUniformLocation(program, name);
+
+        if (location == -1)
+        {
+            throw new Exception($"{name} uniform not found on shader.");
+        }
+
+        gl.Uniform3(location, value.X, value.Y, value.Z);
+    }
 }
