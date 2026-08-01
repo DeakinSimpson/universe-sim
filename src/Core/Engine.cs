@@ -35,4 +35,9 @@ public class Engine
             renderable.Render(deltaTime);
         }
     }
+
+    public void Start()
+    {
+        window.Run();
+    }
 }

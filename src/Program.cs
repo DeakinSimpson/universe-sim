@@ -1,2 +1,1 @@
-﻿var app = new App();
-app.Run();
+﻿// Engine engine = new Engine();

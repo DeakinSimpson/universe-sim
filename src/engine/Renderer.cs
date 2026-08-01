@@ -3,7 +3,7 @@ using Silk.NET.Windowing;
 using System.Drawing;
 using System.Numerics;
 
-public class Renderer
+public class RendererOld
 {
     // -- private variables --
     private static GL gl;
@@ -13,7 +13,7 @@ public class Renderer
     private bool wireframe = false;
 
     // initialise renderer
-    public Renderer(IWindow window)
+    public RendererOld(IWindow window)
     {
         // initialise the OpenGL instance
         gl = window.CreateOpenGL();
