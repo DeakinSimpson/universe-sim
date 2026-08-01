@@ -59,7 +59,6 @@ public class Shader
             throw new Exception("Program failed to link: " + gl.GetProgramInfoLog(program));
 
         // detach the shaders
-        // TODO: check as this might need to be done in the onLoad method
         gl.DetachShader(program, vertexShader);
         gl.DetachShader(program, fragmentShader);
         gl.DeleteShader(vertexShader);
@@ -72,34 +71,49 @@ public class Shader
     }
 
     // -- set uniforms for shader --
+    // -----------------------------------------------------------------------------------------------------------
     public void SetUniform(string name, int value)
-    {
+    {   
+        // create the uniform
         int location = gl.GetUniformLocation(program, name);
+
+        // check for errors
         if (location == -1)
         {
             throw new Exception($"{name} uniform not found on shader.");
         }
+
+        // set the uniform
         gl.Uniform1(location, value);
     }
 
     public unsafe void SetUniform(string name, Matrix4x4 value)
     {
-        // A new overload has been created for setting a uniform so we can use the transform in our shader.
+        // create the uniform
         int location = gl.GetUniformLocation(program, name);
+
+        // check for errors
         if (location == -1)
         {
             throw new Exception($"{name} uniform not found on shader.");
         }
+
+        // set the uniform
         gl.UniformMatrix4(location, 1, false, (float*) &value);
     }
 
     public void SetUniform(string name, float value)
     {
+        // create the uniform
         int location = gl.GetUniformLocation(program, name);
+
+        // check for errors
         if (location == -1)
         {
             throw new Exception($"{name} uniform not found on shader.");
         }
+
+        // set the uniform
         gl.Uniform1(location, value);
     }
 }

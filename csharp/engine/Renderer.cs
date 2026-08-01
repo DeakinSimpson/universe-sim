@@ -5,11 +5,13 @@ using System.Numerics;
 
 public class Renderer
 {
+    // -- private variables --
     private static GL gl;
     private static uint vao;
     private static uint vbo;
     private static uint ebo;
 
+    // initialise renderer
     public Renderer(IWindow window)
     {
         // initialise the OpenGL instance
@@ -42,12 +44,7 @@ public class Renderer
         gl.BindVertexArray(0);
     }
 
-    public void onRender()
-    {
-        setBackgroundColour(Color.CornflowerBlue);
-    }
-
-    private void setBackgroundColour(Color color)
+    public void setBackgroundColour(Color color)
     {
         // set the clear colour
         gl.ClearColor(color);
@@ -56,6 +53,7 @@ public class Renderer
         gl.Clear(ClearBufferMask.ColorBufferBit);
     }
 
+    // -- renders any object --
     public unsafe void renderObject(List<float> vertices, List<uint> indices, Shader shader, Matrix4x4 model, Camera camera, IWindow window)
     {
         // activate shader
