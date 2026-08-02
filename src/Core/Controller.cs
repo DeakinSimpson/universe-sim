@@ -1,21 +1,21 @@
 using Silk.NET.Input;
 using System.Numerics;
 
-public class Controller
+public class Controller : IUpdatable
 {
-    private readonly Camera camera; // Controller does not own the camera but requires a camera to be made
+    private readonly Camera camera;
     private IKeyboard primaryKeyboard;
     float lookSensitivity = 0.1f;
 
-    // initialising Controller justs sets its camera
     public Controller(Camera camera)
     {
         this.camera = camera;
     }
 
-    // on load add all the movements to the input
     public void onLoad(IInputContext input)
     {
+        primaryKeyboard = input.Keyboards.FirstOrDefault();
+
         for (int i = 0; i < input.Mice.Count; i++)
         {
             input.Mice[i].Cursor.CursorMode = CursorMode.Raw;
@@ -24,9 +24,9 @@ public class Controller
         }
     }
 
-    public void OnUpdate(float deltaTime)
+    public void Update(double deltaTime)
     {
-        var moveSpeed = 2.5f * deltaTime;
+        var moveSpeed = 2.5f * (float)deltaTime;
 
         if (primaryKeyboard.IsKeyPressed(Key.W)) camera.MoveForward(moveSpeed);
         if (primaryKeyboard.IsKeyPressed(Key.S)) camera.MoveForward(-moveSpeed);

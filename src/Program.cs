@@ -1,1 +1,1 @@
-﻿// Engine engine = new Engine();
+﻿new App().Run();
