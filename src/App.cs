@@ -14,7 +14,7 @@ public class App
         var options = WindowOptions.Default with
         {
             Size = new Vector2D<int>(800, 600),
-            Title = "Universe Simulator"
+            Title = "BUFFER Ngin"
         };
 
         // create a new window
