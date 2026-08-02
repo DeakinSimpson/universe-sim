@@ -137,12 +137,3 @@ public class RendererOld
         gl.PolygonMode(GLEnum.FrontAndBack, wireframe ? GLEnum.Line : GLEnum.Fill);
     }
 }
-
-// -- maths functions --
-public static class MathHelper
-{
-    public static float DegreesToRadians(float degrees)
-    {
-        return MathF.PI / 180f * degrees;
-    }
-}
