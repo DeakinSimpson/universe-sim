@@ -10,5 +10,8 @@ This will also hold any Mesh related functions
 
 public class Mesh
 {
-    
+    private List<float> vertices = new List<float>();
+    private List<uint> indicies = new List<uint>();
+    private List<float> uv = new List<float>();
+    private List<float> normals = new List<float>();
 }

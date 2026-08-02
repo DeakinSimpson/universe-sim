@@ -1,5 +1,9 @@
 using Silk.NET.Windowing;
 
+/*
+Engine owns the Update and render loops
+*/
+
 public class Engine
 {
     private readonly IWindow window;                // stores the window that will be rendered to
@@ -34,10 +38,5 @@ public class Engine
         {
             renderable.Render(deltaTime);
         }
-    }
-
-    public void Start()
-    {
-        window.Run();
     }
 }
