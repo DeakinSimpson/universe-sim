@@ -5,6 +5,7 @@ public class Controller
 {
     private readonly Camera camera; // Controller does not own the camera but requires a camera to be made
     private IKeyboard primaryKeyboard;
+    float lookSensitivity = 0.1f;
 
     // initialising Controller justs sets its camera
     public Controller(Camera camera)
@@ -33,10 +34,21 @@ public class Controller
         if (primaryKeyboard.IsKeyPressed(Key.D)) camera.Strafe(moveSpeed);
     }
 
+    private Vector2 lastMousePosition;
+
     private void OnMouseMove(IMouse mouse, Vector2 position)
     {
-        // same delta-tracking logic as before, but ends by calling
-        // camera.Rotate(yawDelta, pitchDelta) instead of setting Camera fields directly
+        if (lastMousePosition == default)
+        {
+            lastMousePosition = position;
+            return;
+        }
+
+        var xOffset = (position.X - lastMousePosition.X) * lookSensitivity;
+        var yOffset = (position.Y - lastMousePosition.Y) * lookSensitivity;
+        lastMousePosition = position;
+
+        camera.Rotate(xOffset, yOffset);
     }
 
     private void OnMouseWheel(IMouse mouse, ScrollWheel scrollWheel)
