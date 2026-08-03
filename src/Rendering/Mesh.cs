@@ -8,10 +8,19 @@ in its own class
 This will also hold any Mesh related functions
 */
 
+using System.Reflection.Metadata;
+using System.Runtime.ExceptionServices;
+
 public class Mesh
 {
-    private List<float> vertices = new List<float>();
-    private List<uint> indicies = new List<uint>();
-    private List<float> uv = new List<float>();
-    private List<float> normals = new List<float>();
+    public List<float> vertices = new List<float>();   // interleaved: x,y,z, nx,ny,nz
+    public List<uint> indicies = new List<uint>();
+
+    public Mesh() { }
+
+    public Mesh(List<float> vertices, List<uint> indicies)
+    {
+        this.vertices = vertices;
+        this.indicies = indicies;
+    }
 }

@@ -11,3 +11,9 @@ public interface IRenderable
 {
     void Render(double deltaTime);
 }
+
+// this will be used by all model parsers
+public interface IModelLoader
+{
+    Mesh Load(string filepath);
+}

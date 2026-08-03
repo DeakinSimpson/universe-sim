@@ -26,6 +26,9 @@ public class Scene : IUpdatable, IRenderable
     private SolarSystem solarSystem = new SolarSystem();
     private Shader shader;
 
+    // !testing
+    Mesh testMesh;
+
     // this creates the scene and adds all the objects
     public Scene(Renderer renderer, Camera camera, IWindow window)
     {   
@@ -44,6 +47,11 @@ public class Scene : IUpdatable, IRenderable
 
         solarSystem.addPlanet(planet1);
         solarSystem.addPlanet(planet2);
+
+        //! -- TESTING -- 
+        IModelLoader objLoader = new ObjLoader();
+        testMesh = objLoader.Load("resources/models/cube.obj");
+        //! -------------
     }
 
     // this updates before each frame
@@ -56,5 +64,8 @@ public class Scene : IUpdatable, IRenderable
     {
         renderer.setBackgroundColour(Color.Black);
         solarSystem.Render(renderer, camera, window, lightPosition);
+
+        //! testing
+        renderer.renderObject(testMesh.vertices, testMesh.indicies, shader, Matrix4x4.CreateTranslation(-2, 0, -2), camera, window, lightPosition);
     }
 }
