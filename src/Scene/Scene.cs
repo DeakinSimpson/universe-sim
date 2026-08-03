@@ -50,7 +50,7 @@ public class Scene : IUpdatable, IRenderable
 
         //! -- TESTING -- 
         IModelLoader objLoader = new ObjLoader();
-        testMesh = objLoader.Load("resources/models/cube.obj");
+        testMesh = objLoader.Load("resources/models/monkey.obj");
         //! -------------
     }
 
