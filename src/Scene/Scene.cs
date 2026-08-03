@@ -20,14 +20,12 @@ public class Scene : IUpdatable, IRenderable
     /*
     these are dynamic and not needed
     */
+    private Mesh sphere_mesh;
     private Planet planet1;
     private Planet planet2;
     private Vector3 lightPosition = new Vector3(3.0f, 3.0f, 3.0f);
     private SolarSystem solarSystem = new SolarSystem();
     private Shader shader;
-
-    // !testing
-    Mesh testMesh;
 
     // this creates the scene and adds all the objects
     public Scene(Renderer renderer, Camera camera, IWindow window)
@@ -42,16 +40,14 @@ public class Scene : IUpdatable, IRenderable
         string fragmentCode = Shader.fileToString("shaders/planet.fs");
         shader = new Shader(vertexCode, fragmentCode, renderer);
 
-        planet1 = new Planet(0.0f, 0.0f, 0.0f, 1.0f, 20, shader);
-        planet2 = new Planet(5.0f, 0.0f, 0.0f, 2.0f, 10, shader);
+        IModelLoader objLoader = new ObjLoader();
+        sphere_mesh = objLoader.Load("resources/models/sphere.obj");
+
+        planet1 = new Planet(0.0f, 0.0f, 0.0f, 1.0f, 20, shader, sphere_mesh);
+        planet2 = new Planet(5.0f, 0.0f, 0.0f, 2.0f, 10, shader, sphere_mesh);
 
         solarSystem.addPlanet(planet1);
         solarSystem.addPlanet(planet2);
-
-        //! -- TESTING -- 
-        IModelLoader objLoader = new ObjLoader();
-        testMesh = objLoader.Load("resources/models/monkey.obj");
-        //! -------------
     }
 
     // this updates before each frame
@@ -64,8 +60,5 @@ public class Scene : IUpdatable, IRenderable
     {
         renderer.setBackgroundColour(Color.Black);
         solarSystem.Render(renderer, camera, window, lightPosition);
-
-        //! testing
-        renderer.renderObject(testMesh.vertices, testMesh.indicies, shader, Matrix4x4.CreateTranslation(-2, 0, -2), camera, window, lightPosition);
     }
 }

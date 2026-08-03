@@ -14,13 +14,13 @@ using System.Runtime.ExceptionServices;
 public class Mesh
 {
     public List<float> vertices = new List<float>();   // interleaved: x,y,z, nx,ny,nz
-    public List<uint> indicies = new List<uint>();
+    public List<uint> indices = new List<uint>();
 
     public Mesh() { }
 
-    public Mesh(List<float> vertices, List<uint> indicies)
+    public Mesh(List<float> vertices, List<uint> indices)
     {
         this.vertices = vertices;
-        this.indicies = indicies;
+        this.indices = indices;
     }
 }

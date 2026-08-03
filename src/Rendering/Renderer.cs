@@ -86,7 +86,7 @@ public class Renderer
     // -- renders any object --
 
     //TODO: change this to use variables with names rather then numbers
-    public unsafe void renderObject(List<float> vertices, List<uint> indices, Shader shader, Matrix4x4 model, Camera camera, IWindow window, Vector3 lightPosition)
+    public unsafe void renderObject(Mesh mesh, Shader shader, Matrix4x4 model, Camera camera, IWindow window, Vector3 lightPosition)
     {
         // activate shader
         shader.Use();
@@ -114,8 +114,8 @@ public class Renderer
         shader.SetUniform("lightPos", lightPosition);
 
         // convert lists to arrays
-        float[] vertexArray = vertices.ToArray();
-        uint[] indexArray = indices.ToArray();
+        float[] vertexArray = mesh.vertices.ToArray();
+        uint[] indexArray = mesh.indices.ToArray();
 
         gl.BindVertexArray(vao);
 
@@ -139,7 +139,7 @@ public class Renderer
 
         // draw to screen
         gl.BindVertexArray(vao);
-        gl.DrawElements(PrimitiveType.Triangles, (uint) indices.Count(), DrawElementsType.UnsignedInt, (void*) 0);
+        gl.DrawElements(PrimitiveType.Triangles, (uint) mesh.indices.Count(), DrawElementsType.UnsignedInt, (void*) 0);
 
         // cleanup (clear buffers)
         gl.BindVertexArray(0);
