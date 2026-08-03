@@ -8,8 +8,10 @@ in its own class
 This will also hold any Mesh related functions
 */
 
+using System.Numerics;
 using System.Reflection.Metadata;
 using System.Runtime.ExceptionServices;
+using Silk.NET.Windowing;
 
 public class Mesh
 {
